@@ -1,1 +1,3 @@
-rxapps/reactive-web/target
+reactive-apps/reactive-web/target
+reactive-apps/reactive-web/.idea
+reactive-apps/reactive-web/*.iml
