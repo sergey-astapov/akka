@@ -12,9 +12,21 @@ import com.reactiveapps.reactiveweb.protocol.SingleFact;
 public class MasterActor extends UntypedActor {
     private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Master");
 
-    private ActorRef marshall = getContext().actorOf(Props.create(MarshallActor.class), "marshall");
-    private ActorRef single = getContext().actorOf(Props.create(SingleFactActor.class), "single");
-    private ActorRef continuousMaster = getContext().actorOf(Props.create(ContinuousMasterActor.class), "continuousMaster");
+    private final ActorRef marshall;
+    private final ActorRef single;
+    private final ActorRef continuousMaster;
+
+    public MasterActor() {
+        marshall = getContext().actorOf(Props.create(MarshallActor.class), "marshall");
+        single = getContext().actorOf(Props.create(SingleFactActor.class), "single");
+        continuousMaster = getContext().actorOf(Props.create(ContinuousMasterActor.class), "continuousMaster");
+    }
+
+    public MasterActor(ActorRef marshall, ActorRef single, ActorRef continuousMaster) {
+        this.marshall = marshall;
+        this.single = single;
+        this.continuousMaster = continuousMaster;
+    }
 
     @Override
     public void onReceive(Object m) throws Exception {

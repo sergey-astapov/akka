@@ -27,13 +27,20 @@ public class MarshallActor extends UntypedActor {
 
     private Fact deserializeFact(String m) {
         Properties data = gson.fromJson(m, Properties.class);
-        Fact.Type type = Fact.Type.valueOf(data.getProperty("type", "single").toUpperCase());
+        Fact.Type type;
+        try {
+            type = Fact.Type.valueOf(data.getProperty("type", "single").toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedTypeException();
+        }
         switch(type) {
             case SINGLE:    return gson.fromJson(m, SingleFact.class);
             case START:     return gson.fromJson(m, StartFact.class);
             case STOP:      return gson.fromJson(m, StopFact.class);
             case INNER:     return gson.fromJson(m, InnerFact.class);
         }
-        throw new RuntimeException("Unsupported message type: " + type);
+        throw new UnsupportedTypeException();
     }
+
+    public class UnsupportedTypeException extends RuntimeException {}
 }
