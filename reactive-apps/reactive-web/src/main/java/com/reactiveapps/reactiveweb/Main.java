@@ -37,7 +37,7 @@ public class Main {
         get("/facts/:uid", "application/json", (req, res) -> {
             try {
                 return Await.result(
-                        Patterns.ask(master, new GetContinuousState(req.params(":uid")), 5000),
+                        Patterns.ask(master, GetContinuousState.withUid(req.params(":uid")), 5000),
                         Duration.create(5000, TimeUnit.MILLISECONDS));
             } catch (Exception e) {
                 return error();

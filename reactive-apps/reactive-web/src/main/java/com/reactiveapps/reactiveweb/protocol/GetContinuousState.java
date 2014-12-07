@@ -1,5 +1,6 @@
 package com.reactiveapps.reactiveweb.protocol;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Collections;
@@ -18,6 +19,10 @@ public class GetContinuousState {
                 .toString();
     }
 
+    public static GetContinuousState withUid(String uid) {
+        return new GetContinuousState(uid);
+    }
+
     public static class Result {
         public enum Status {SUCCESS, NOT_FOUND, ERROR}
 
@@ -27,6 +32,19 @@ public class GetContinuousState {
         public Result(Status status, List<ContinuousFact> facts) {
             this.status = status;
             this.facts = facts;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == null) { return false; }
+            if (obj == this) { return true; }
+            if (obj.getClass() != getClass()) {
+                return false;
+            }
+            Result rhs = (Result) obj;
+            return new EqualsBuilder()
+                    .append(status, rhs.status)
+                    .append(facts, rhs.facts)
+                    .isEquals();
         }
 
         public static Result success(List<ContinuousFact> facts) {

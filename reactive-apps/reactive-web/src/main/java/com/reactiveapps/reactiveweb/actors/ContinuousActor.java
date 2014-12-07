@@ -42,13 +42,13 @@ public class ContinuousActor extends UntypedActor {
         } else if (o instanceof GetContinuousState) {
             GetContinuousState f = (GetContinuousState) o;
             checkUid(f.uid);
-            getFacts();
+            getSender().tell(success(populateFacts()), ActorRef.noSender());
         } else {
             unhandled(o);
         }
     }
 
-    private void getFacts() {
+    public List<ContinuousFact> populateFacts() {
         List<ContinuousFact> result = new ArrayList<>();
         if (start.isPresent()) {
             result.add(start.get());
@@ -57,7 +57,7 @@ public class ContinuousActor extends UntypedActor {
         if (stop.isPresent()) {
             result.add(stop.get());
         }
-        getSender().tell(success(result), ActorRef.noSender());
+        return result;
     }
 
     private void checkUid(String factUid) {
