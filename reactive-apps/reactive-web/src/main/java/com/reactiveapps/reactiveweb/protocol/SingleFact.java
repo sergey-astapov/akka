@@ -1,4 +1,4 @@
-package com.reactiveapps.reactiveweb.facts;
+package com.reactiveapps.reactiveweb.protocol;
 
 public class SingleFact implements Fact {
     public final String uid;

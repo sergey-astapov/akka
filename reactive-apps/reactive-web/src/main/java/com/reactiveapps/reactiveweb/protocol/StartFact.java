@@ -1,14 +1,14 @@
-package com.reactiveapps.reactiveweb.facts;
+package com.reactiveapps.reactiveweb.protocol;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-public class InnerFact implements ContinuousFact {
+public class StartFact implements ContinuousFact {
     public final String uid;
     public final String data;
 
-    public InnerFact(String uid, String data) {
+    public StartFact(String uid, String data) {
         this.uid = uid;
         this.data = data;
     }
@@ -31,7 +31,7 @@ public class InnerFact implements ContinuousFact {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        InnerFact rhs = (InnerFact) obj;
+        StartFact rhs = (StartFact) obj;
         return new EqualsBuilder()
                 .append(uid, rhs.uid)
                 .append(data, rhs.data)

@@ -5,9 +5,9 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.reactiveapps.reactiveweb.facts.ContinuousFact;
-import com.reactiveapps.reactiveweb.commands.GetContinuousFacts;
-import com.reactiveapps.reactiveweb.facts.SingleFact;
+import com.reactiveapps.reactiveweb.protocol.ContinuousFact;
+import com.reactiveapps.reactiveweb.protocol.GetContinuousState;
+import com.reactiveapps.reactiveweb.protocol.SingleFact;
 
 public class MasterActor extends UntypedActor {
     private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Master");
@@ -27,7 +27,7 @@ public class MasterActor extends UntypedActor {
         } else if (m instanceof ContinuousFact) {
             LOG.info("Send to continuousMaster: {}", m);
             continuousMaster.tell(m, self());
-        } else if (m instanceof GetContinuousFacts) {
+        } else if (m instanceof GetContinuousState) {
             LOG.info("Send to continuousMaster: {}", m);
             continuousMaster.tell(m, getSender());
         } else {

@@ -6,7 +6,8 @@ import akka.actor.Props;
 import akka.pattern.Patterns;
 import com.google.gson.GsonBuilder;
 import com.reactiveapps.reactiveweb.actors.MasterActor;
-import com.reactiveapps.reactiveweb.commands.GetContinuousFacts;
+import com.reactiveapps.reactiveweb.protocol.GetContinuousState;
+import static com.reactiveapps.reactiveweb.protocol.GetContinuousState.Result.*;
 import com.typesafe.config.ConfigFactory;
 import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
@@ -36,10 +37,10 @@ public class Main {
         get("/facts/:uid", "application/json", (req, res) -> {
             try {
                 return Await.result(
-                        Patterns.ask(master, new GetContinuousFacts(req.params(":uid")), 5000),
+                        Patterns.ask(master, new GetContinuousState(req.params(":uid")), 5000),
                         Duration.create(5000, TimeUnit.MILLISECONDS));
             } catch (Exception e) {
-                return GetContinuousFacts.Result.error();
+                return error();
             }
         }, (o) -> new GsonBuilder().setPrettyPrinting().create().toJson(o));
         put("/facts", (req, res) -> {

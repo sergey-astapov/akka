@@ -1,16 +1,18 @@
-package com.reactiveapps.reactiveweb.facts;
+package com.reactiveapps.reactiveweb.protocol;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-public class StartFact implements ContinuousFact {
+public class StopFact implements ContinuousFact {
     public final String uid;
     public final String data;
+    public final Long total;
 
-    public StartFact(String uid, String data) {
+    public StopFact(String uid, String data, Long total) {
         this.uid = uid;
         this.data = data;
+        this.total = total;
     }
 
     @Override
@@ -21,6 +23,7 @@ public class StartFact implements ContinuousFact {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(uid)
+                .append(total)
                 .append(data)
                 .toHashCode();
     }
@@ -31,9 +34,10 @@ public class StartFact implements ContinuousFact {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        StartFact rhs = (StartFact) obj;
+        StopFact rhs = (StopFact) obj;
         return new EqualsBuilder()
                 .append(uid, rhs.uid)
+                .append(total, rhs.total)
                 .append(data, rhs.data)
                 .isEquals();
     }
@@ -41,6 +45,7 @@ public class StartFact implements ContinuousFact {
     public String toString() {
         return new ToStringBuilder(this)
                 .append("uid", uid)
+                .append("total", total)
                 .append("data", data)
                 .toString();
     }

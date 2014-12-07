@@ -5,7 +5,7 @@ import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import com.google.gson.Gson;
-import com.reactiveapps.reactiveweb.facts.*;
+import com.reactiveapps.reactiveweb.protocol.*;
 
 import java.util.Properties;
 

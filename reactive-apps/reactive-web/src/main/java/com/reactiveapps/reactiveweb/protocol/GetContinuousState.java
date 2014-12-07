@@ -1,15 +1,14 @@
-package com.reactiveapps.reactiveweb.commands;
+package com.reactiveapps.reactiveweb.protocol;
 
-import com.reactiveapps.reactiveweb.facts.ContinuousFact;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import java.util.Collections;
 import java.util.List;
 
-public class GetContinuousFacts {
+public class GetContinuousState {
     public final String uid;
 
-    public GetContinuousFacts(String uid) {
+    public GetContinuousState(String uid) {
         this.uid = uid;
     }
 
@@ -28,6 +27,10 @@ public class GetContinuousFacts {
         public Result(Status status, List<ContinuousFact> facts) {
             this.status = status;
             this.facts = facts;
+        }
+
+        public static Result success(List<ContinuousFact> facts) {
+            return new Result(Status.SUCCESS, facts);
         }
 
         public static Result notFound() {

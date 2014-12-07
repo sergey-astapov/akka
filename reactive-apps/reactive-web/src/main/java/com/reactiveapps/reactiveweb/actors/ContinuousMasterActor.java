@@ -5,8 +5,10 @@ import akka.actor.Props;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.reactiveapps.reactiveweb.commands.GetContinuousFacts;
-import com.reactiveapps.reactiveweb.facts.ContinuousFact;
+import com.reactiveapps.reactiveweb.protocol.GetContinuousState;
+import com.reactiveapps.reactiveweb.protocol.ContinuousFact;
+
+import static com.reactiveapps.reactiveweb.protocol.GetContinuousState.Result.notFound;
 
 public class ContinuousMasterActor extends UntypedActor {
     private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "ContinuousMaster");
@@ -21,11 +23,11 @@ public class ContinuousMasterActor extends UntypedActor {
                 actorRef = getContext().actorOf(Props.create(ContinuousActor.class, f.getUid()), f.getUid());
             }
             actorRef.tell(f, self());
-        } else if (o instanceof GetContinuousFacts) {
-            GetContinuousFacts c = (GetContinuousFacts)o;
+        } else if (o instanceof GetContinuousState) {
+            GetContinuousState c = (GetContinuousState)o;
             ActorRef actorRef = getContext().getChild(c.uid);
             if (actorRef == null) {
-                getSender().tell(GetContinuousFacts.Result.notFound(), ActorRef.noSender());
+                getSender().tell(notFound(), ActorRef.noSender());
             } else {
                 actorRef.tell(c, getSender());
             }

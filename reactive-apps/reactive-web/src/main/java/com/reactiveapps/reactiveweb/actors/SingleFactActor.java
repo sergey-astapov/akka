@@ -3,7 +3,7 @@ package com.reactiveapps.reactiveweb.actors;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.reactiveapps.reactiveweb.facts.SingleFact;
+import com.reactiveapps.reactiveweb.protocol.SingleFact;
 
 public class SingleFactActor extends UntypedActor {
     private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Single");

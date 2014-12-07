@@ -5,12 +5,12 @@ import akka.actor.PoisonPill;
 import akka.actor.UntypedActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import com.reactiveapps.reactiveweb.commands.GetContinuousFacts;
-import com.reactiveapps.reactiveweb.commands.GetContinuousFacts.Result.Status;
-import com.reactiveapps.reactiveweb.facts.ContinuousFact;
-import com.reactiveapps.reactiveweb.facts.InnerFact;
-import com.reactiveapps.reactiveweb.facts.StartFact;
-import com.reactiveapps.reactiveweb.facts.StopFact;
+import com.reactiveapps.reactiveweb.protocol.GetContinuousState;
+import static com.reactiveapps.reactiveweb.protocol.GetContinuousState.Result.*;
+import com.reactiveapps.reactiveweb.protocol.ContinuousFact;
+import com.reactiveapps.reactiveweb.protocol.InnerFact;
+import com.reactiveapps.reactiveweb.protocol.StartFact;
+import com.reactiveapps.reactiveweb.protocol.StopFact;
 
 import java.util.*;
 
@@ -39,8 +39,8 @@ public class ContinuousActor extends UntypedActor {
                 stop((StopFact) f);
             }
             afterPropertiesSet();
-        } else if (o instanceof GetContinuousFacts) {
-            GetContinuousFacts f = (GetContinuousFacts) o;
+        } else if (o instanceof GetContinuousState) {
+            GetContinuousState f = (GetContinuousState) o;
             checkUid(f.uid);
             getFacts();
         } else {
@@ -57,7 +57,7 @@ public class ContinuousActor extends UntypedActor {
         if (stop.isPresent()) {
             result.add(stop.get());
         }
-        getSender().tell(new GetContinuousFacts.Result(Status.SUCCESS, result), ActorRef.noSender());
+        getSender().tell(success(result), ActorRef.noSender());
     }
 
     private void checkUid(String factUid) {
