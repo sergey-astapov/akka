@@ -10,8 +10,12 @@ import com.reactiveapps.core.protocol.GetContinuousState;
 import com.typesafe.config.ConfigFactory;
 import scala.concurrent.Await;
 import scala.concurrent.duration.Duration;
+import spark.ModelAndView;
+import spark.template.mustache.MustacheTemplateEngine;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -30,7 +34,11 @@ public class WebNode {
 
         final ActorRef master = system.actorOf(Props.create(MasterActor.class), "master");
 
-        get("/", (req, res) -> "Reactive AKKA Web Example");
+        get("/", (req, res) -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("name", "Reactive Web Application");
+            return new ModelAndView(map, "hello.mst");
+        }, new MustacheTemplateEngine());
         get("/facts", (req, res) -> {
             res.status(404);
             return "Not found";

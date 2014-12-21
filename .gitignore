@@ -1,9 +1,12 @@
 reactive-apps/target
 reactive-apps/.idea
 reactive-apps/*.iml
-*/target
-*/.idea
-*/*.iml
+reactive-apps/reactive-core/target
+reactive-apps/reactive-core/.idea
+reactive-apps/reactive-core/*.iml
+reactive-apps/reactive-seed/target
+reactive-apps/reactive-seed/.idea
+reactive-apps/reactive-seed/*.iml
 reactive-apps/reactive-web/target
 reactive-apps/reactive-web/.idea
 reactive-apps/reactive-web/*.iml
