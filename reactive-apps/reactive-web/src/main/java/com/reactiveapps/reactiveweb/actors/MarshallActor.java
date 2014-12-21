@@ -17,7 +17,7 @@ public class MarshallActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof String) {
-            Fact fact = deserializeFact((String) m);
+            Fact fact = unmarshall((String) m);
             LOG.info("Receive fact: [{}]", fact);
             getSender().tell(fact, ActorRef.noSender());
         } else {
@@ -25,7 +25,7 @@ public class MarshallActor extends UntypedActor {
         }
     }
 
-    private Fact deserializeFact(String m) {
+    private Fact unmarshall(String m) {
         Properties data = gson.fromJson(m, Properties.class);
         Fact.Type type;
         try {
