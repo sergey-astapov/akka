@@ -1,3 +1,9 @@
+reactive-apps/target
+reactive-apps/.idea
+reactive-apps/*.iml
+*/target
+*/.idea
+*/*.iml
 reactive-apps/reactive-web/target
 reactive-apps/reactive-web/.idea
 reactive-apps/reactive-web/*.iml

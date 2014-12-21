@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.reactiveapps</groupId>
-    <artifactId>reactive-web</artifactId>
+    <artifactId>reactive-seed</artifactId>
     <packaging>jar</packaging>
     <version>${parent.version}</version>
-    <name>reactive-web</name>
+    <name>reactive-seed</name>
 
     <parent>
         <groupId>com.reactiveapps</groupId>
@@ -21,9 +21,24 @@
             <version>${parent.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.sparkjava</groupId>
-            <artifactId>spark-core</artifactId>
-            <version>2.0.0</version>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-camel_2.10</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jms</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>${activemq.version}</version>
         </dependency>
     </dependencies>
 </project>
