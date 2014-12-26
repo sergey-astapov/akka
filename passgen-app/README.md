@@ -22,6 +22,16 @@ http GET localhost:8888/generate length=<pass length>
 http GET localhost:8888/generate/<pass length>
 ```
 
+## Heroku
+
+You need to perform next steps to install application to Heroku:
+* start command prompt with ruby
+* heroku create
+* heroku apps:passgenapp
+* add Procfile file
+* mvn heroku:deploy
+* mvn heroku open -a passgenapp
+
 ## License
 
 Apache

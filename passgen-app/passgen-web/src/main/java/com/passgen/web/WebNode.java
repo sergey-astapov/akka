@@ -16,27 +16,23 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.template.mustache.MustacheTemplateEngine;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import static com.passgen.core.model.PasswordResult.withError;
+import static java.lang.System.getenv;
 import static spark.Spark.get;
 import static spark.Spark.setPort;
 
 public class WebNode {
     private final static Logger LOG = LoggerFactory.getLogger(WebNode.class);
     public static final int TIMEOUT = 5000;
-    public static final String DEFAULT_PORT = "8080";
+    public static final int DEFAULT_PORT = 8888;
 
     public static void main(String[] args) throws Exception {
-        Properties props = new Properties();
-        try(InputStream in = WebNode.class.getResourceAsStream("/app.properties")) {
-            props.load(in);
-        }
-        setPort(Integer.valueOf(props.getProperty("http.port", DEFAULT_PORT)));
+        setPort(Optional.ofNullable(getenv("PORT")).map(Integer::parseInt).orElse(DEFAULT_PORT));
 
         ActorSystem system = ActorSystem.create("FactSys", ConfigFactory.load());
 
