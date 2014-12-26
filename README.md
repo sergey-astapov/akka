@@ -1,4 +1,4 @@
 akka
 ====
 
-This repository contains akka based projeects
+This repository contains akka based projects

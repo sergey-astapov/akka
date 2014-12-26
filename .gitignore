@@ -10,3 +10,10 @@ reactive-apps/reactive-seed/*.iml
 reactive-apps/reactive-web/target
 reactive-apps/reactive-web/.idea
 reactive-apps/reactive-web/*.iml
+
+passgen-app/target
+passgen-app/.idea
+passgen-app/*.iml
+passgen-app/passgen-web/target
+passgen-app/passgen-web/.idea
+passgen-app/passgen-web/*.iml
