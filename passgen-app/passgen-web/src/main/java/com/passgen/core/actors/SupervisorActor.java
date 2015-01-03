@@ -34,7 +34,7 @@ public class SupervisorActor extends UntypedActor {
 
     @Override
     public void onReceive(Object m) throws Exception {
-        LOG.info("Forward message: {}", m);
+        LOG.debug("Forward message: {}", m);
         marshaller.forward(m, getContext());
     }
 }

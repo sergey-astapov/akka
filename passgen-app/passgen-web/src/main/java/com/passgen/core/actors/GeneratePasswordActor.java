@@ -24,11 +24,11 @@ public class GeneratePasswordActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof GeneratePassword) {
-            LOG.info("Generate password: {}", m);
+            LOG.debug("Generate password: {}", m);
             GeneratePassword cmd = (GeneratePassword)m;
             int size = cmd.length > 0 ? cmd.length : DEFAULT_LENGTH;
             String pass = RandomStringUtils.random(size, 0, 0, true, true, null, new SecureRandom());
-            LOG.info("Password: {}", pass);
+            LOG.debug("Password: {}", pass);
             next.tell(withPassword(pass), getSender());
         } else {
             unhandled(m);

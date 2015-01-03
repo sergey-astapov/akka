@@ -23,7 +23,7 @@ public class MarshallerActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof String) {
-            LOG.info("Unmarshalling message: {}", m);
+            LOG.debug("Unmarshalling message: {}", m);
             try {
                 next.tell(gson.fromJson((String) m, GeneratePassword.class), getSender());
             } catch (JsonSyntaxException e) {

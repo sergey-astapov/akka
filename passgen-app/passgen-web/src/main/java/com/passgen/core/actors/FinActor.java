@@ -13,7 +13,7 @@ public class FinActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof PasswordResult) {
-            LOG.info("Password result: {}", m);
+            LOG.debug("Password result: {}", m);
             sender().tell(m, noSender());
         } else {
             unhandled(m);
