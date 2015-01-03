@@ -34,7 +34,7 @@ public class WebNode {
     public static void main(String[] args) throws Exception {
         setPort(Optional.ofNullable(getenv("PORT")).map(Integer::parseInt).orElse(DEFAULT_PORT));
 
-        ActorSystem system = ActorSystem.create("FactSys", ConfigFactory.load());
+        ActorSystem system = ActorSystem.create("PassgenSys", ConfigFactory.load());
 
         final ActorRef supervisor = system.actorOf(Props.create(SupervisorActor.class), "supervisor");
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -5,8 +5,11 @@ import ch.qos.logback.core.ConsoleAppender
 
 appender("CONSOLE", ConsoleAppender) {
     encoder(PatternLayoutEncoder) {
-        pattern = "%-4relative %logger{5} [%thread] - %msg%n"
+        pattern = "%date{ISO8601} %-5level %-4relative %logger{5} [%thread] - %msg%n"
     }
 }
 
-root(INFO, ["CONSOLE"])
+logger("org.eclipse.jetty", INFO)
+logger("akka", DEBUG)
+
+root(DEBUG, ["CONSOLE"])

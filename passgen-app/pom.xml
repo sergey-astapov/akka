@@ -15,7 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <akka.version>2.2.4</akka.version>
+        <akka.version>2.3.8</akka.version>
         <camel.version>2.13.0</camel.version>
         <activemq.version>5.10.0</activemq.version>
     </properties>

@@ -8,7 +8,7 @@ import scala.concurrent.duration.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class SupervisorActor extends UntypedActor {
-    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Supervisor");
+    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), this);
 
     private final ActorRef marshaller;
     private final ActorRef generator;
@@ -34,6 +34,7 @@ public class SupervisorActor extends UntypedActor {
 
     @Override
     public void onReceive(Object m) throws Exception {
+        LOG.info("Forward message: {}", m);
         marshaller.forward(m, getContext());
     }
 }

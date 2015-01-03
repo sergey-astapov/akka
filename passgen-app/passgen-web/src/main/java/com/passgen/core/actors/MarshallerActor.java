@@ -11,7 +11,7 @@ import com.passgen.core.model.GeneratePassword;
 import static com.passgen.core.model.GeneratePassword.withLength;
 
 public class MarshallerActor extends UntypedActor {
-    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Marshaller");
+    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), this);
 
     private final ActorRef next;
     private final Gson gson = new Gson();
@@ -23,7 +23,7 @@ public class MarshallerActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof String) {
-            LOG.debug("Unmarshalling message: {}", m);
+            LOG.info("Unmarshalling message: {}", m);
             try {
                 next.tell(gson.fromJson((String) m, GeneratePassword.class), getSender());
             } catch (JsonSyntaxException e) {

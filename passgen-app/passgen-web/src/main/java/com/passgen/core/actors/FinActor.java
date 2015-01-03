@@ -8,12 +8,12 @@ import com.passgen.core.model.PasswordResult;
 import static akka.actor.ActorRef.noSender;
 
 public class FinActor extends UntypedActor {
-    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Fin");
+    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), this);
 
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof PasswordResult) {
-            LOG.debug("Password result: {}", m);
+            LOG.info("Password result: {}", m);
             sender().tell(m, noSender());
         } else {
             unhandled(m);

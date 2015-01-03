@@ -12,7 +12,7 @@ import java.security.SecureRandom;
 import static com.passgen.core.model.PasswordResult.withPassword;
 
 public class GeneratePasswordActor extends UntypedActor {
-    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), "Generator");
+    private final LoggingAdapter LOG = Logging.getLogger(getContext().system(), this);
     public static final int DEFAULT_LENGTH = 8;
 
     private final ActorRef next;
@@ -24,11 +24,11 @@ public class GeneratePasswordActor extends UntypedActor {
     @Override
     public void onReceive(Object m) throws Exception {
         if (m instanceof GeneratePassword) {
-            LOG.debug("Generate password: {}", m);
+            LOG.info("Generate password: {}", m);
             GeneratePassword cmd = (GeneratePassword)m;
             int size = cmd.length > 0 ? cmd.length : DEFAULT_LENGTH;
             String pass = RandomStringUtils.random(size, 0, 0, true, true, null, new SecureRandom());
-            LOG.debug("Password: {}", pass);
+            LOG.info("Password: {}", pass);
             next.tell(withPassword(pass), getSender());
         } else {
             unhandled(m);
