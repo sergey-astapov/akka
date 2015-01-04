@@ -11,6 +11,7 @@
 
     <modules>
         <module>passgen-web</module>
+        <module>passgen-scala</module>
     </modules>
 
     <properties>
