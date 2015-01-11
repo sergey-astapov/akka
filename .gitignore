@@ -17,3 +17,13 @@ passgen-app/*.iml
 passgen-app/passgen-web/target
 passgen-app/passgen-web/.idea
 passgen-app/passgen-web/*.iml
+passgen-app/passgen-scala/target
+passgen-app/passgen-scala/.idea
+passgen-app/passgen-scala/*.iml
+
+mytranslator-app/target
+mytranslator-app/.idea
+mytranslator-app/*.iml
+mytranslator-app/mytranslator-web/target
+mytranslator-app/mytranslator-web/.idea
+mytranslator-app/mytranslator-web/*.iml
