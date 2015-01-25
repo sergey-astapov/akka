@@ -27,3 +27,13 @@ mytranslator-app/*.iml
 mytranslator-app/mytranslator-web/target
 mytranslator-app/mytranslator-web/.idea
 mytranslator-app/mytranslator-web/*.iml
+
+cqrs-app/target
+cqrs-app/.idea
+cqrs-app/*.iml
+cqrs-app/cqrs-backend/target
+cqrs-app/cqrs-backend/.idea
+cqrs-app/cqrs-backend/*.iml
+cqrs-app/cqrs-frontend-web/target
+cqrs-app/cqrs-frontend-web/.idea
+cqrs-app/cqrs-frontend-web/*.iml
