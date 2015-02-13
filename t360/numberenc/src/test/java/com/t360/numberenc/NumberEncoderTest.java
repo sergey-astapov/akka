@@ -68,6 +68,25 @@ public class NumberEncoderTest {
     }
 
     @Test
+    public void testEncoder3() throws Exception {
+        String[] nums = new String[] {
+                "5624-82"
+        };
+        URL resource = NumberEncoderTest.class.getClassLoader().getResource("dictionary-sample.txt");
+        assertNotNull(resource);
+
+        Dictionary dict;
+        try (Stream<String> words = Files.lines(Paths.get(resource.toURI()))) {
+            dict = new Dictionary(words);
+        }
+        StringBuilder sb = new StringBuilder();
+        NumberEncoder ne = new NumberEncoder(dict);
+        ne.encode(Arrays.stream(nums))
+                .forEach((s) -> sb.append(s).append("\n"));
+        System.out.println(sb.toString());
+    }
+
+    @Test
     public void testPreviousDigit() {
         StringBuilder sb = new StringBuilder();
         assertThat(isPreviousDigit(sb), is(false));

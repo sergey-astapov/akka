@@ -53,18 +53,22 @@ public class NumberEncoder {
 
     private List<StringBuilder> encodeNumber(String number) {
         List<StringBuilder> accs = new LinkedList<>(Arrays.asList(new StringBuilder()));
-        while(true) {
-            dict.collect(accs, number.toCharArray(), 0);
-            break;
-//            StringBuilder sb = accs.get(accs.size() - 1);
-//            if (sb.length() == 0 || sb.length() == 1 && Character.getNumericValue(sb.charAt(0)) >= 0) {
-//                if (accs.size() > 1) {
-//                    accs.remove(accs.size() - 1);
-//                }
-//                break;
-//            }
-//            accs.add(new StringBuilder());
-        }
+        Entry parent = new Entry(new Pair(0));
+        dict.collect(parent, number.toCharArray());
+//        parent.children.flatMap()
+//
+//        while(true) {
+//            dict.collect(accs, number.toCharArray(), 0);
+//            break;
+////            StringBuilder sb = accs.get(accs.size() - 1);
+////            if (sb.length() == 0 || sb.length() == 1 && Character.getNumericValue(sb.charAt(0)) >= 0) {
+////                if (accs.size() > 1) {
+////                    accs.remove(accs.size() - 1);
+////                }
+////                break;
+////            }
+////            accs.add(new StringBuilder());
+//        }
         return accs;
     }
 

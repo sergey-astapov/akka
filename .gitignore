@@ -37,3 +37,14 @@ cqrs-app/cqrs-backend/*.iml
 cqrs-app/cqrs-frontend-web/target
 cqrs-app/cqrs-frontend-web/.idea
 cqrs-app/cqrs-frontend-web/*.iml
+
+t360/target
+t360/.idea
+t360/*.iml
+t360/cubes/target
+t360/cubes/.idea
+t360/cubes/*.iml
+t360/numberenc/target
+t360/numberenc/.idea
+t360/numberenc/*.iml
+
