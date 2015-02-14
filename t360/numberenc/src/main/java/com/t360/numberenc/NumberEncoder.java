@@ -28,7 +28,8 @@ public class NumberEncoder {
 
     public void encode(Path from, Path to) throws IOException {
         try (Writer writer = new PrintWriter(new BufferedWriter(new FileWriter(to.toString())));
-             Stream<String> numbers = lines(from)) {
+             Stream<String> numbers = lines(from))
+        {
             encode(numbers)
                     .forEach((s) -> {
                         LOG.debug("Write to output: {}", s);
@@ -43,7 +44,7 @@ public class NumberEncoder {
 
     public Stream<String> encode(Stream<String> numbers) {
         return numbers.filter(s -> s.length() <= NUM_MAX_LENGTH && s.matches(NUM_REGEX))
-                .flatMap((n) -> dict.collect(n).stream()
+                .flatMap((n) -> dict.collect(n)
                         .filter((s) -> s.length() > 0 && !(s.length() == 1 && Character.getNumericValue(s.charAt(0)) >= 0))
                         .map((s) -> n + ": " + s));
     }

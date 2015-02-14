@@ -1,14 +1,9 @@
 package com.t360.numberenc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SearchUtils {
-    private static final Logger LOG = LoggerFactory.getLogger(SearchUtils.class);
-
     public static List<Integer> digitAll(final String[] dictionary, char digit) {
         return Mapping.letters(digit).chars().boxed()
                 .map((c) -> letterAll(dictionary, Character.toString((char) c.intValue())))
@@ -39,7 +34,7 @@ public class SearchUtils {
         return Collections.binarySearch(Arrays.asList(dictionary), letter, Mapping::compareFirstChar);
     }
 
-    public static Optional<Entry> match(String word, char[] number, int start) {
+    public static Optional<Entry> match(String word, char[] number, final int start) {
         boolean matched = true;
         int i = start;
         for (char c : word.toLowerCase().replaceAll("-", "").replaceAll("\"", "").toCharArray()) {
@@ -61,8 +56,7 @@ public class SearchUtils {
         }
         Optional<Entry> result = Optional.empty();
         if (matched) {
-            LOG.debug("Word matched, number: {}, word: {}", number, word);
-            result = Optional.of(new Entry(new Pair(word, i)));
+            result = Optional.of(new Entry(new Encoded(word, i)));
         }
         return result;
     }

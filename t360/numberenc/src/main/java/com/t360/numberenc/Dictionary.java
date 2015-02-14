@@ -42,14 +42,12 @@ public class Dictionary {
         dictionary = dict.toArray(new String[dict.size()]);
     }
 
-    public List<String> collect(String number) {
-        return collectEntry(new Entry(new Pair(0)), number.toCharArray())
-                .traverse().stream()
-                .collect(Collectors.toList());
+    public Stream<String> collect(String number) {
+        return collectEntry(new Entry(new Encoded(0)), number.toCharArray()).traverse();
     }
 
     Entry collectEntry(Entry entry, char number[]) {
-        int start = entry.value.next;
+        int start = entry.encoded.next;
         while (start < number.length && ignore(number[start])) {
             start++;
         }
