@@ -3,9 +3,14 @@ package com.t360.numberenc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.t360.numberenc.Mapping.ignore;
 
 /**
  * Implements dictionary.
@@ -15,9 +20,13 @@ public class Dictionary {
 
     public static final String WORD_REGEX = "[a-zA-Z-\"]+";
     public static final int WORD_MAX_LENGTH = 50;
-    public static final int MAX_SIZE = 75000;
+//    public static final int MAX_SIZE = 75000;
 
     private final String[] dictionary;
+
+    public Dictionary(List<String> words) {
+        this(words.stream());
+    }
 
     public Dictionary(Stream<String> stream) {
         List<String> dict = new LinkedList<>();
@@ -29,16 +38,23 @@ public class Dictionary {
             }
             return supported;
         }).forEach(dict::add);
+        Collections.sort(dict, Mapping::compareFirstChar);
         dictionary = dict.toArray(new String[dict.size()]);
     }
 
-    public void collect(Entry entry, char number[]) {
-        int start = entry.value.start;
-        while (start < number.length && (number[start] == '/' || number[start] == '-')) {
+    public List<String> collect(String number) {
+        return collectEntry(new Entry(new Pair(0)), number.toCharArray())
+                .traverse().stream()
+                .collect(Collectors.toList());
+    }
+
+    Entry collectEntry(Entry entry, char number[]) {
+        int start = entry.value.next;
+        while (start < number.length && ignore(number[start])) {
             start++;
         }
         if (start == number.length) {
-            return;
+            return entry;
         }
         if (start > number.length) {
             throw new IllegalArgumentException("Unsupported index, current: " + start + ", need: " + number.length);
@@ -46,87 +62,28 @@ public class Dictionary {
 
         List<Integer> indexes = Collections.emptyList();
         while (start < number.length) {
-            indexes = search(dictionary, number[start]);
-            if (!indexes.isEmpty()) {
-                break;
+            if (!ignore(number[start])) {
+                indexes = SearchUtils.digitAll(dictionary, number[start]);
+                if (!indexes.isEmpty()) {
+                    break;
+                }
             }
             start++;
         }
-        if (indexes.isEmpty() || start == number.length) {
-            return;
+        if (indexes.isEmpty()) {
+            return entry;
         }
 
         final int begin = start;
         List<Entry> children = indexes.stream()
-                .map((i) -> match(dictionary[i], number, begin))
+                .map((i) -> SearchUtils.match(dictionary[i], number, begin))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
 
-        children.forEach((child) -> collect(child, number));
+        children.forEach((child) -> collectEntry(child, number));
         entry.children = Optional.of(children);
-    }
-
-    public static List<Integer> search(final String[] dictionary, char nc) {
-        return Mapping.letters(nc).chars().boxed()
-                .map((c) -> searchLetter(dictionary, Character.toString((char) c.intValue())))
-                .filter((l) -> !l.isEmpty())
-                .flatMap((l) -> l.stream())
-                .collect(Collectors.toList());
-    }
-
-    public static List<Integer> searchLetter(String[] dictionary, String letter) {
-        List<Integer> indexes = new LinkedList<>();
-        int index = searchIndex(dictionary, letter);
-        if (index >= 0) {
-            indexes.add(index);
-            int i = index - 1;
-            while (i >= 0 && compareFirstChar(dictionary[i], letter) == 0) {
-                indexes.add(0, i--);
-            }
-            i = index + 1;
-            while (i < dictionary.length && compareFirstChar(dictionary[i], letter) == 0) {
-                indexes.add(i++);
-            }
-        }
-        return indexes;
-    }
-
-    public static int searchIndex(String[] dictionary, String d) {
-        return Collections.binarySearch(Arrays.asList(dictionary), d, Dictionary::compareFirstChar);
-    }
-
-    public static int compareFirstChar(String w, String d) {
-        String wordChar = Character.toString(w.charAt(0));
-        return wordChar.toLowerCase().compareTo(d.toLowerCase());
-    }
-
-    public static Optional<Entry> match(String word, char[] number, int start) {
-        boolean matched = true;
-        int i = start;
-        for (char c : word.toLowerCase().replaceAll("-", "").replaceAll("\"", "").toCharArray()) {
-            if (i == number.length) {
-                matched = false;
-                break;
-            }
-            while (i < number.length && (number[i] == '-' || number[i] == '/')) {
-                i++;
-            }
-            if (i == number.length) {
-                matched = false;
-                break;
-            }
-            if (!Mapping.exist(number[i++], c)) {
-                matched = false;
-                break;
-            }
-        }
-        Optional<Entry> result = Optional.empty();
-        if (matched) {
-            LOG.debug("Word matched, number: {}, word: {}", number, word);
-            result = Optional.of(new Entry(new Pair(word, i)));
-        }
-        return result;
+        return entry;
     }
 
     static boolean isWordUsed(List<StringBuilder> accumulators, String word) {

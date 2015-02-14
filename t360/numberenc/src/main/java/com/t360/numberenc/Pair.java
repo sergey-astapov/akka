@@ -4,15 +4,15 @@ import java.util.Optional;
 
 public class Pair {
     public final Optional<String> word;
-    public final Integer start;
+    public final Integer next;
 
-    public Pair(Integer start) {
+    public Pair(Integer next) {
         this.word = Optional.empty();
-        this.start = start;
+        this.next = next;
     }
 
-    public Pair(String word, Integer start) {
+    public Pair(String word, Integer next) {
         this.word = Optional.of(word);
-        this.start = start;
+        this.next = next;
     }
 }

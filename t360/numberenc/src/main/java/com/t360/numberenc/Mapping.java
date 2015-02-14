@@ -11,11 +11,13 @@ import static java.lang.Character.toLowerCase;
 public class Mapping {
     private static String[] letters = new String[] {
             //0|   1  |   2  |   3  |  4  |  5  |   6  |   7  |   8  |   9
-            "Ee", "JNQjnq", "RWXrwx", "DSYdsy", "FTft", "AMam", "CIVciv", "BKUbku", "LOPlop", "GHZghz"
+            "e", "jnq", "rwx", "dsy", "ft", "am", "civ", "bku", "lop", "ghz"
     };
+
     public static int length() {
         return letters.length;
     }
+
     public static int numericValue(Character w) {
         for (int i = 0; i < letters.length; i++) {
             if (letters[i].contains(String.valueOf(toLowerCase(w)))) {
@@ -24,11 +26,13 @@ public class Mapping {
         }
         throw new IllegalArgumentException("Unsupported character: " + w);
     }
+
     public static String letters(Character n) {
         int value = Character.getNumericValue(n);
         if (value < 0) throw new IllegalArgumentException("Unsupported numeric value: " + n);
         return letters[value];
     }
+
     public static int digit(Character w) {
         int i = 0;
         for (String l : letters) {
@@ -37,7 +41,17 @@ public class Mapping {
         }
         return -1;
     }
+
     public static boolean exist(Character n, Character w) {
         return letters[Character.getNumericValue(n)].contains(String.valueOf(toLowerCase(w)));
+    }
+
+    public static boolean ignore(char c) {
+        return c == '/' || c == '-';
+    }
+
+    public static int compareFirstChar(String w, String d) {
+        String wordChar = Character.toString(w.charAt(0));
+        return wordChar.toLowerCase().compareTo(d.toLowerCase());
     }
 }

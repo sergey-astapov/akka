@@ -6,9 +6,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import static java.nio.file.Files.lines;
@@ -46,30 +43,9 @@ public class NumberEncoder {
 
     public Stream<String> encode(Stream<String> numbers) {
         return numbers.filter(s -> s.length() <= NUM_MAX_LENGTH && s.matches(NUM_REGEX))
-                .flatMap((n) -> encodeNumber(n).stream()
-                        .filter((sb) -> sb.length() > 0 && !(sb.length() == 1 && Character.getNumericValue(sb.charAt(0)) >= 0))
-                        .map((sb) -> sb.insert(0, n + ": ").toString()));
-    }
-
-    private List<StringBuilder> encodeNumber(String number) {
-        List<StringBuilder> accs = new LinkedList<>(Arrays.asList(new StringBuilder()));
-        Entry parent = new Entry(new Pair(0));
-        dict.collect(parent, number.toCharArray());
-//        parent.children.flatMap()
-//
-//        while(true) {
-//            dict.collect(accs, number.toCharArray(), 0);
-//            break;
-////            StringBuilder sb = accs.get(accs.size() - 1);
-////            if (sb.length() == 0 || sb.length() == 1 && Character.getNumericValue(sb.charAt(0)) >= 0) {
-////                if (accs.size() > 1) {
-////                    accs.remove(accs.size() - 1);
-////                }
-////                break;
-////            }
-////            accs.add(new StringBuilder());
-//        }
-        return accs;
+                .flatMap((n) -> dict.collect(n).stream()
+                        .filter((s) -> s.length() > 0 && !(s.length() == 1 && Character.getNumericValue(s.charAt(0)) >= 0))
+                        .map((s) -> n + ": " + s));
     }
 
     public static void main(String[] args) throws IOException {
