@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.t360.numberenc.Encoded.isDigit;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 /**
@@ -40,8 +42,18 @@ public class DictionaryTest {
     }
 
     @Test
+    public void test04824() throws Exception {
+        DICT.collect("04824").forEach(System.out::println);
+    }
+
+    @Test
     public void test107835() throws Exception {
         DICT.collect("10/783--5").forEach(System.out::println);
+    }
+
+    @Test
+    public void test107835_() throws Exception {
+        DICT.collect("1078-913-5").forEach(System.out::println);
     }
 
     @Test
@@ -52,9 +64,16 @@ public class DictionaryTest {
     @Test
     public void testCollect() throws Exception {
         Dictionary dict = new Dictionary(Arrays.asList(SearchUtilsTest.DICTIONARY));
-        Entry e = dict.collectEntry(new Entry(new Encoded(0)), "5624-82".toCharArray());
+        Entry e = dict.collectEncodedEntry(new Entry(new Encoded(0)), "5624-82".toCharArray());
         assertTrue(e.children.isPresent());
         List<String> strings = e.traverse().collect(Collectors.toList());
         assertFalse(strings.isEmpty());
+    }
+
+    @Test
+    public void testIsDigit() {
+        assertThat(isDigit(""), is(false));
+        assertThat(isDigit("a"), is(false));
+        assertThat(isDigit("1"), is(true));
     }
 }

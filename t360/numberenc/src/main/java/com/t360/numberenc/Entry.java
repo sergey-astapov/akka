@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * Contains encoded values.
+ */
 public class Entry {
     public final Encoded encoded;
     public Optional<List<Entry>> children;

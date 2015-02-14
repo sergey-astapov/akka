@@ -3,6 +3,9 @@ package com.t360.numberenc;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Search utilities.
+ */
 public class SearchUtils {
     public static List<Integer> digitAll(final String[] dictionary, char digit) {
         return Mapping.letters(digit).chars().boxed()

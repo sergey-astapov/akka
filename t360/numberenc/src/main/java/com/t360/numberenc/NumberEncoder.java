@@ -1,20 +1,19 @@
 package com.t360.numberenc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static java.nio.file.Files.lines;
+import static java.util.logging.Level.*;
 
 /**
- * Created by asa on 07.02.2015.
+ * Encodes phone numbers.
  */
 public class NumberEncoder {
-    private static final Logger LOG = LoggerFactory.getLogger(NumberEncoder.class);
+    private static final Logger LOG = Logger.getLogger(NumberEncoder.class.getName());
 
     public static final String NUM_REGEX = "[0-9-/]+";
 
@@ -32,9 +31,9 @@ public class NumberEncoder {
         {
             encode(numbers)
                     .forEach((s) -> {
-                        LOG.debug("Write to output: {}", s);
+                        LOG.log(FINE, "Write to output: " + s);
                         try {
-                            writer.write(s);
+                            writer.write(s + "\n");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -45,17 +44,25 @@ public class NumberEncoder {
     public Stream<String> encode(Stream<String> numbers) {
         return numbers.filter(s -> s.length() <= NUM_MAX_LENGTH && s.matches(NUM_REGEX))
                 .flatMap((n) -> dict.collect(n)
-                        .filter((s) -> s.length() > 0 && !(s.length() == 1 && Character.getNumericValue(s.charAt(0)) >= 0))
+                        .filter((s) -> s.length() > 0 && !(s.length() == 1 && Character.isDigit(s.charAt(0))))
                         .map((s) -> n + ": " + s));
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length < 3) {
-            LOG.info("Wrong number of arguments, current: {}, need: {}", args.length, 3);
+        if (args.length == 0) {
+            LOG.log(INFO, "Number Encoder:\n" +
+                    "<dict> <nums> <out>, where:\n" +
+                    "\tdict - dictionary file\n" +
+                    "\tnums - phone numbers file\n" +
+                    "\tout - output file\n");
             return;
         }
-        try (Stream<String> numbers = lines(Paths.get(args[0]))) {
-            NumberEncoder enc = new NumberEncoder(new Dictionary(numbers));
+        if (args.length < 3) {
+            LOG.log(INFO, "Wrong number of arguments, current: " + args.length + ", need: 3");
+            return;
+        }
+        try (Stream<String> words = lines(Paths.get(args[0]))) {
+            NumberEncoder enc = new NumberEncoder(new Dictionary(words));
             enc.encode(Paths.get(args[1]), Paths.get(args[2]));
         }
     }
