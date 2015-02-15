@@ -17,8 +17,8 @@ public class SearchUtilsTest {
     public void testMatch() {
         Optional<Entry> e = SearchUtils.match("mir", "5624-82".toCharArray(), 0);
         assertTrue(e.isPresent());
-        assertTrue(e.get().encoded.word.isPresent());
-        assertThat(e.get().encoded.next, is(3));
+        assertTrue(e.get().word.isPresent());
+        assertThat(e.get().next, is(3));
     }
 
     @Test

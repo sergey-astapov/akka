@@ -59,7 +59,7 @@ public class SearchUtils {
         }
         Optional<Entry> result = Optional.empty();
         if (matched) {
-            result = Optional.of(new Entry(new Encoded(word, i)));
+            result = Optional.of(new Entry(word, i));
         }
         return result;
     }

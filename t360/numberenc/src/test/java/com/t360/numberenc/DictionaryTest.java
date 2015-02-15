@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.t360.numberenc.Encoded.isDigit;
+import static com.t360.numberenc.Entry.isDigit;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -64,7 +64,7 @@ public class DictionaryTest {
     @Test
     public void testCollect() throws Exception {
         Dictionary dict = new Dictionary(Arrays.asList(SearchUtilsTest.DICTIONARY));
-        Entry e = dict.collectEncodedEntry(new Entry(new Encoded(0)), "5624-82".toCharArray());
+        Entry e = dict.collectEncodedEntry(new Entry(0), "5624-82".toCharArray());
         assertTrue(e.children.isPresent());
         List<String> strings = e.traverse().collect(Collectors.toList());
         assertFalse(strings.isEmpty());

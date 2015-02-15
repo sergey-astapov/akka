@@ -45,13 +45,12 @@ public class Dictionary {
     }
 
     public Stream<String> collect(String number) {
-        return collectEncodedEntry(new Entry(new Encoded(0)), number.toCharArray()).traverse();
+        return collectEncodedEntry(new Entry(0), number.toCharArray()).traverse();
     }
 
     Entry collectEncodedEntry(Entry parent, char number[]) {
-        final Encoded encoded = parent.encoded;
-        final boolean isEncoded = !encoded.isDigit();
-        int start = encoded.next;
+        final boolean isEncoded = !parent.isDigit();
+        int start = parent.next;
         while (start < number.length && ignore(number[start])) {
             start++;
         }
@@ -95,7 +94,7 @@ public class Dictionary {
     }
 
     private Entry collectNotEncodedEntry(Entry parent, char[] number, int i) {
-        Entry entry = new Entry(new Encoded(String.valueOf(number[i]), i + 1));
+        Entry entry = new Entry(String.valueOf(number[i]), i + 1);
         collectEncodedEntry(entry, number);
         parent.children = Optional.of(Arrays.asList(entry));
         return parent;
