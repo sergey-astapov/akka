@@ -7,7 +7,8 @@ import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import static java.nio.file.Files.lines;
-import static java.util.logging.Level.*;
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.INFO;
 
 /**
  * Encodes phone numbers.
@@ -51,9 +52,9 @@ public class NumberEncoder {
     public static void main(String[] args) throws IOException {
         if (args.length == 0) {
             LOG.log(INFO, "Number Encoder:\n" +
-                    "<dict> <nums> <out>, where:\n" +
+                    "<dict> <in> <out>, where:\n" +
                     "\tdict - dictionary file\n" +
-                    "\tnums - phone numbers file\n" +
+                    "\tin - phone numbers file\n" +
                     "\tout - output file\n");
             return;
         }
@@ -61,9 +62,17 @@ public class NumberEncoder {
             LOG.log(INFO, "Wrong number of arguments, current: " + args.length + ", need: 3");
             return;
         }
-        try (Stream<String> words = lines(Paths.get(args[0]))) {
+
+        String dict = args[0];
+        String in = args[1];
+        String out = args[2];
+        LOG.log(INFO, "Processing phone numbers: " + in + ", with dictionary: " + dict);
+
+        try (Stream<String> words = lines(Paths.get(dict))) {
             NumberEncoder enc = new NumberEncoder(new Dictionary(words));
-            enc.encode(Paths.get(args[1]), Paths.get(args[2]));
+            enc.encode(Paths.get(in), Paths.get(out));
         }
+
+        LOG.log(INFO, "Processed, output: " + out);
     }
 }
