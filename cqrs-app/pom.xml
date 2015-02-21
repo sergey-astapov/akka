@@ -16,9 +16,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <akka.version>2.3.8</akka.version>
+        <akka.version>2.3.9</akka.version>
         <camel.version>2.13.0</camel.version>
-        <activemq.version>5.10.0</activemq.version>
+        <scala.version>2.10</scala.version>
+        <kamon.version>0.3.5</kamon.version>
     </properties>
 
     <build>
@@ -44,6 +45,24 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -51,17 +70,17 @@
         <!--ACTORS-->
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-actor_2.10</artifactId>
+            <artifactId>akka-actor_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-remote_2.10</artifactId>
+            <artifactId>akka-remote_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-slf4j_2.10</artifactId>
+            <artifactId>akka-slf4j_${scala.version}</artifactId>
             <version>${akka.version}</version>
         </dependency>
 
@@ -89,6 +108,33 @@
             <version>1.0.10</version>
         </dependency>
 
+        <!--MONITOR-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>io.kamon</groupId>
+            <artifactId>kamon-core_${scala.version}</artifactId>
+            <version>${kamon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.kamon</groupId>
+            <artifactId>kamon-statsd_${scala.version}</artifactId>
+            <version>${kamon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.kamon</groupId>
+            <artifactId>kamon-log-reporter_${scala.version}</artifactId>
+            <version>${kamon.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.kamon</groupId>
+            <artifactId>kamon-system-metrics_${scala.version}</artifactId>
+            <version>${kamon.version}</version>
+        </dependency>
+
         <!--TEST-->
         <dependency>
             <groupId>junit</groupId>
@@ -98,13 +144,13 @@
         </dependency>
         <dependency>
             <groupId>com.typesafe.akka</groupId>
-            <artifactId>akka-testkit_2.10</artifactId>
+            <artifactId>akka-testkit_${scala.version}</artifactId>
             <version>${akka.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.10</artifactId>
+            <artifactId>scalatest_${scala.version}</artifactId>
             <version>1.9.1</version>
             <scope>test</scope>
         </dependency>

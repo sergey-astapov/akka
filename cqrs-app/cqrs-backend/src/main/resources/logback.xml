@@ -8,8 +8,7 @@
             </pattern>
         </encoder>
     </appender>
-    <logger name="com.passgen" level="DEBUG"/>
-    <logger name="akka" level="INFO"/>
+    <logger name="com.cqrs.backend.actors" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
     </root>
