@@ -49,5 +49,7 @@ t360/numberenc/.idea
 t360/numberenc/*.iml
 
 misc/quiz/.idea
-misc/quiz/.iml
+misc/quiz/*.iml
 
+full-stack-ninja/.idea
+full-stack-ninja/*.iml

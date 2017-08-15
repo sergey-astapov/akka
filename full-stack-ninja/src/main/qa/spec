@@ -1,0 +1,11 @@
+Incident rise by user with state Listed.
+
+Listed              -->[REJECT]      --> Closed
+Listed              -->[ACCEPT]      --> Responded
+Responded           -->[CLOSE]       --> Closed
+Responded           -->[IN PROGRESS] --> In Resolution (regular user)
+Responded           -->[IN PROGRESS] --> Priority Resolution (priority user)
+In Resolution       -->[RESOLVE]     --> Closed
+Priority Resolution -->[RESOLVE]     --> Closed
+
+Provide all test cases.
