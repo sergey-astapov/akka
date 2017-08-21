@@ -65,6 +65,52 @@ class LazyVal {
 * abstract classes are interoperable with Java
 * traits are only interoperable with Java if they do not contain any implementation
 
+### Diamond problem
+
+```
+The "diamond problem" ... is an ambiguity that arises when two classes B and C inherit from A, and class D inherits from both B and C.
+```
+
+Scala **diamond problem** handling:
+
+```
+trait A {
+  def x = 1
+}
+
+trait B extends A {
+  override def x = 2
+}
+
+trait C extends A
+class D extends B with C
+
+(new D).x // == 2
+```
+
+Scala "linearizes" the lookup of methods from traits. For D, it starts with D itself, and then looks at every class or trait it inherits from, starting from the right. This is a depth-first search, so the order is  ```D -> C -> A -> B -> A```, however duplicates (which indicate a diamond problem) are eliminated leaving the last in the list, so it becomes ```D -> C -> B -> A```.
+
+However, this code:
+
+```
+trait A[A] {
+  val x: A
+}
+
+trait B extends A[Int]
+trait C extends A[String]
+trait D extends B with C
+```
+
+Does produce this error:
+
+```
+trait D inherits different type instances of trait A:
+A[String] and A[Int]
+```
+
+Showing that Scala does still have a diamond problem is certain circumstances.
+
 ### object vs class
 
 * class is definition of state and behavior

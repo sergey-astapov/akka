@@ -1,3 +1,9 @@
+**/.idea
+**/.gradle
+**/build
+**/target
+**/*.iml
+
 reactive-apps/target
 reactive-apps/.idea
 reactive-apps/*.iml
