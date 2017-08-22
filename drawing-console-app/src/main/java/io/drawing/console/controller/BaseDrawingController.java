@@ -17,13 +17,13 @@ public abstract class BaseDrawingController {
         if (Quit.from(input) != null) {
             return false;
         } else if ((cmd = Canvas.from(input)) != null) {
-            model.addCanvas((Canvas) cmd);
+            model.add((Canvas) cmd);
         } else if ((cmd = Line.from(input)) != null) {
-            model.addFigure((Line) cmd);
+            model.add((Line) cmd);
         } else if ((cmd = Rectangle.from(input)) != null) {
-            model.addFigure((Rectangle) cmd);
+            model.add((Rectangle) cmd);
         } else if ((cmd = Bucket.from(input)) != null) {
-            model.fillBucket((Bucket) cmd);
+            model.fill((Bucket) cmd);
         } else {
             throw new IllegalCommandFormatException(input);
         }

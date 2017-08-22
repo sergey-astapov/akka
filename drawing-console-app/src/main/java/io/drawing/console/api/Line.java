@@ -18,8 +18,8 @@ public abstract class Line implements Figure, Command {
     Point end;
 
     @Override
-    public boolean fitCanvas(Canvas c) {
-        return start.fitCanvas(c) && end.fitCanvas(c);
+    public boolean fitCanvas(int width, int height) {
+        return start.fitCanvas(width, height) && end.fitCanvas(width, height);
     }
 
     private static boolean isHorizontal(Point start, Point end) {

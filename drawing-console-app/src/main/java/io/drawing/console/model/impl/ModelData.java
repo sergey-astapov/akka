@@ -1,19 +1,20 @@
 package io.drawing.console.model.impl;
 
 import io.drawing.console.api.*;
+import lombok.Value;
 
-public class ModelConverter {
+@Value
+public class ModelData {
 
     public static final char X_CHAR = 'x';
     public static final char SPACE_CHAR = ' ';
-    private final Character[][] chars;
 
-    public Character[][] getChars() {
-        return chars;
-    }
+    int width;
+    int height;
+    Character[][] chars;
 
-    public ModelConverter(Canvas c) {
-        Character[][] chars = new Character[c.getHeight() + 2][c.getWidth() + 2];
+    public ModelData(int width, int height) {
+        Character[][] chars = new Character[height + 2][width + 2];
         for (int i = 0; i < chars.length; i++) {
             for (int j = 0; j < chars[i].length; j++) {
                 if (i == 0 || i == chars.length - 1) {
@@ -25,10 +26,16 @@ public class ModelConverter {
                 }
             }
         }
+        this.width = width;
+        this.height = height;
         this.chars = chars;
     }
 
-    public void drawFigure(Figure f) {
+    public Character[][] getChars() {
+        return chars;
+    }
+
+    public void add(Figure f) {
         if (f instanceof HorizontalLine) {
             Line line = (HorizontalLine) f;
             Point start = line.getStart();
@@ -60,7 +67,7 @@ public class ModelConverter {
         }
     }
 
-    public void drawBucket(Bucket b) {
+    public void fill(Bucket b) {
         Point point = b.getPoint();
         int x = point.getX();
         int y = point.getY();

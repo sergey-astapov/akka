@@ -36,24 +36,24 @@ public class BaseDrawingControllerTest {
     @Test
     public void testCanvas() {
         assertTrue(sut.process("C 1 2"));
-        Mockito.verify(model, times(1)).addCanvas(Mockito.any(Canvas.class));
+        Mockito.verify(model, times(1)).add(Mockito.any(Canvas.class));
     }
 
     @Test
     public void testLine() {
         assertTrue(sut.process("L 1 2 1 4"));
-        Mockito.verify(model, times(1)).addFigure(Mockito.any(Line.class));
+        Mockito.verify(model, times(1)).add(Mockito.any(Line.class));
     }
 
     @Test
     public void testRectangle() {
         assertTrue(sut.process("R 1 2 3 4"));
-        Mockito.verify(model, times(1)).addFigure(Mockito.any(Rectangle.class));
+        Mockito.verify(model, times(1)).add(Mockito.any(Rectangle.class));
     }
 
     @Test
     public void testBucketFill() {
         assertTrue(sut.process("B 1 2 3"));
-        Mockito.verify(model, times(1)).fillBucket(Mockito.any(Bucket.class));
+        Mockito.verify(model, times(1)).fill(Mockito.any(Bucket.class));
     }
 }

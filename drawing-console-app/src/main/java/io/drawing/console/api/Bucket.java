@@ -16,8 +16,8 @@ public class Bucket implements Canvasable, Command {
     Color color;
 
     @Override
-    public boolean fitCanvas(Canvas c) {
-        return point.fitCanvas(c);
+    public boolean fitCanvas(int width, int height) {
+        return point.fitCanvas(width, height);
     }
 
     @Builder

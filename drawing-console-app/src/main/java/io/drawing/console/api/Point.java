@@ -8,7 +8,7 @@ public class Point implements Canvasable {
     int y;
 
     @Override
-    public boolean fitCanvas(Canvas c) {
-        return x > 0 && y > 0 && x <= c.getWidth() && y <= c.getHeight();
+    public boolean fitCanvas(int width, int height) {
+        return x > 0 && y > 0 && x <= width && y <= height;
     }
 }

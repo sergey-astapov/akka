@@ -1,18 +1,14 @@
 package io.drawing.console.model.impl;
 
 import io.drawing.console.api.*;
-import io.drawing.console.model.*;
+import io.drawing.console.model.DrawingModel;
+import io.drawing.console.model.IllegalModelStateException;
 import io.drawing.console.view.DrawingView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MemoryDrawingModel implements DrawingModel {
 
+    private ModelData modelData;
     private final DrawingView view;
-    private Canvas canvas;
-    private List<Figure> figures;
-    private List<Bucket> buckets;
 
     public MemoryDrawingModel(DrawingView view) {
         this.view = view;
@@ -20,60 +16,47 @@ public class MemoryDrawingModel implements DrawingModel {
     }
 
     @Override
-    public void addCanvas(Canvas canvas) {
+    public void add(Canvas canvas) {
         init(canvas);
         updateView();
     }
 
     @Override
-    public void addFigure(Figure figure) {
+    public void add(Figure figure) {
         validateCanvas();
         validate(figure);
-        figures.add(figure);
+        modelData.add(figure);
         updateView();
     }
 
     @Override
-    public void fillBucket(Bucket bucket) {
+    public void fill(Bucket bucket) {
         validateCanvas();
         validate(bucket);
-        buckets.add(bucket);
+        modelData.fill(bucket);
         updateView();
     }
 
     private void updateView() {
-        view.update(event());
+        view.update(new ModelChangedEvent(modelData.getChars()));
     }
 
     private void init(Canvas canvas) {
-        this.canvas = canvas;
-        this.figures = new ArrayList<>();
-        this.buckets = new ArrayList<>();
+        this.modelData = null;
+        if (canvas != null) {
+            this.modelData = new ModelData(canvas.getWidth(), canvas.getHeight());
+        }
     }
 
     private void validateCanvas() {
-        if (canvas == null) {
+        if (modelData == null) {
             throw new IllegalModelStateException("Canvas is not set");
         }
     }
 
     private void validate(Canvasable o) {
-        if (!o.fitCanvas(canvas)) {
+        if (!o.fitCanvas(modelData.getWidth(), modelData.getHeight())) {
             throw new IllegalModelStateException("Figure is out of canvas size");
         }
-    }
-
-    private ModelChangedEvent event() {
-        ModelConverter template = new ModelConverter(canvas);
-
-        for (Figure f : figures) {
-            template.drawFigure(f);
-        }
-
-        for (Bucket b : buckets) {
-            template.drawBucket(b);
-        }
-
-        return new ModelChangedEvent(template.getChars());
     }
 }

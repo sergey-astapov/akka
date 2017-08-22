@@ -21,8 +21,8 @@ public class Rectangle implements Figure, Command {
     }
 
     @Override
-    public boolean fitCanvas(Canvas c) {
-        return upperLeftCorner.fitCanvas(c) && lowerRightCorner.fitCanvas(c);
+    public boolean fitCanvas(int width, int height) {
+        return upperLeftCorner.fitCanvas(width, height) && lowerRightCorner.fitCanvas(width, height);
     }
 
     public static Rectangle from(String input) {

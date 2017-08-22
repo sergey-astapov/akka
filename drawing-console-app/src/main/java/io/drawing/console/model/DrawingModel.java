@@ -5,9 +5,9 @@ import io.drawing.console.api.Canvas;
 import io.drawing.console.api.Figure;
 
 public interface DrawingModel {
-    void addCanvas(Canvas canvas);
+    void add(Canvas canvas);
 
-    void addFigure(Figure figure);
+    void add(Figure figure);
 
-    void fillBucket(Bucket bucket);
+    void fill(Bucket bucket);
 }
