@@ -68,6 +68,22 @@ public class ModelDataTest {
         assertThat(sut.toString(), is(BUCKET));
     }
 
+    @Test
+    public void testBucketHorizont() {
+        ModelData sut = new ModelData(20, 4);
+        sut.fill(Bucket.from(new Point(10, 3), Color.from("-")));
+        sut.fill(Bucket.from(new Point(10, 3), Color.from(" ")));
+        assertThat(sut.toString(), is(CANVAS));
+    }
+
+    @Test
+    public void testBucketVert() {
+        ModelData sut = new ModelData(20, 4);
+        sut.fill(Bucket.from(new Point(10, 3), Color.from("|")));
+        sut.fill(Bucket.from(new Point(10, 3), Color.from(" ")));
+        assertThat(sut.toString(), is(CANVAS));
+    }
+
     @Test(expected = IllegalArgumentException.class)
     public void testError() {
         ModelData sut = new ModelData(90, 90);

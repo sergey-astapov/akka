@@ -100,6 +100,9 @@ public class ModelData {
     }
 
     private void floodFill(int x, int y, Character targetColor, Character replacementColor) {
+        if (x == 0 || x > width || y == 0 || y > height) {
+            return;
+        }
         if (targetColor.equals(replacementColor)) {
             return;
         }
