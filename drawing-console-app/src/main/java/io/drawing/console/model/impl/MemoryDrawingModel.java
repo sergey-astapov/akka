@@ -1,9 +1,6 @@
 package io.drawing.console.model.impl;
 
-import io.drawing.console.api.Bucket;
-import io.drawing.console.api.Canvas;
-import io.drawing.console.api.Canvasable;
-import io.drawing.console.api.Figure;
+import io.drawing.console.api.*;
 import io.drawing.console.model.*;
 import io.drawing.console.view.DrawingView;
 
@@ -45,7 +42,7 @@ public class MemoryDrawingModel implements DrawingModel {
     }
 
     private void updateView() {
-        view.update(new ModelChangedEvent(canvas, figures, buckets));
+        view.update(event());
     }
 
     private void init(Canvas canvas) {
@@ -64,5 +61,19 @@ public class MemoryDrawingModel implements DrawingModel {
         if (!o.fitCanvas(canvas)) {
             throw new IllegalModelStateException("Figure is out of canvas size");
         }
+    }
+
+    private ModelChangedEvent event() {
+        ModelConverter template = new ModelConverter(canvas);
+
+        for (Figure f : figures) {
+            template.drawFigure(f);
+        }
+
+        for (Bucket b : buckets) {
+            template.drawBucket(b);
+        }
+
+        return new ModelChangedEvent(template.getChars());
     }
 }

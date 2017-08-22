@@ -1,8 +1,8 @@
-package io.drawing.console.view.impl;
+package io.drawing.console.model.impl;
 
 import io.drawing.console.api.*;
 
-public class DrawingTemplate {
+public class ModelConverter {
 
     public static final char X_CHAR = 'x';
     public static final char SPACE_CHAR = ' ';
@@ -12,7 +12,7 @@ public class DrawingTemplate {
         return chars;
     }
 
-    public DrawingTemplate(Canvas c) {
+    public ModelConverter(Canvas c) {
         Character[][] chars = new Character[c.getHeight() + 2][c.getWidth() + 2];
         for (int i = 0; i < chars.length; i++) {
             for (int j = 0; j < chars[i].length; j++) {
