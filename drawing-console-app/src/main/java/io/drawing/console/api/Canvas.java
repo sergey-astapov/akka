@@ -17,6 +17,9 @@ public class Canvas implements Command {
 
     @Builder
     public static Canvas from(Integer width, Integer height) {
+        if (width < 0 || height < 0) {
+            throw new IllegalArgumentException("Only positive numbers supported, width=" + width + ", height=" + height);
+        }
         return new Canvas(width, height);
     }
 

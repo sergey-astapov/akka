@@ -21,6 +21,11 @@ public class BucketTest {
         Bucket.from("B * 2 3");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testPositiveOnly() {
+        Bucket.from(new Point(-1,  -2), new Color(' '));
+    }
+
     @Test
     public void testFitCanvas() {
         assertTrue(Bucket.from(new Point(10, 10), new Color('3')).fitCanvas(10, 10));

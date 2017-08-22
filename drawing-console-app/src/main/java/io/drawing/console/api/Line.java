@@ -37,7 +37,7 @@ public abstract class Line implements Figure, Command {
         } else if (isVertical(start, end)) {
             return new VerticalLine(start, end);
         }
-        throw new IllegalArgumentException("Can'tcreate line from start: " + start + ", end: " + end);
+        throw new IllegalArgumentException("Can't create line from start: " + start + ", end: " + end);
     }
 
     public static Line from(String input) {
