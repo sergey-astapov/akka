@@ -1,4 +1,4 @@
-package io.drawing.console.model.impl;
+package io.drawing.console.model;
 
 import io.drawing.console.api.*;
 import lombok.Value;
@@ -72,6 +72,17 @@ public class ModelData {
         int x = point.getX();
         int y = point.getY();
         floodFill(x, y, chars[y][x], b.getColor().getValue());
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (Character[] aChar : chars) {
+            for (Character anAChar : aChar) {
+                sb.append(anAChar);
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 
     private void floodFill(int x, int y, Character targetColor, Character replacementColor) {

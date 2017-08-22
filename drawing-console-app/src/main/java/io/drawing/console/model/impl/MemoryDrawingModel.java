@@ -3,6 +3,7 @@ package io.drawing.console.model.impl;
 import io.drawing.console.api.*;
 import io.drawing.console.model.DrawingModel;
 import io.drawing.console.model.IllegalModelStateException;
+import io.drawing.console.model.ModelData;
 import io.drawing.console.view.DrawingView;
 
 public class MemoryDrawingModel implements DrawingModel {
