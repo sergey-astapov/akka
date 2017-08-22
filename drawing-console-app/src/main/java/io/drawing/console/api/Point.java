@@ -1,14 +1,14 @@
-package io.drawing.console.model;
+package io.drawing.console.api;
 
-import lombok.NonNull;
 import lombok.Value;
 
 @Value
-public class Point {
+public class Point implements Canvasable {
     int x;
     int y;
 
-    public boolean isInCanvas(Canvas c) {
+    @Override
+    public boolean fitCanvas(Canvas c) {
         return x > 0 && y > 0 && x <= c.getWidth() && y <= c.getHeight();
     }
 }

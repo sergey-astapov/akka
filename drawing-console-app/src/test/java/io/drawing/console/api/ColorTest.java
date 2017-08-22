@@ -1,5 +1,6 @@
-package io.drawing.console.model;
+package io.drawing.console.api;
 
+import io.drawing.console.api.Color;
 import org.junit.Test;
 
 public class ColorTest {

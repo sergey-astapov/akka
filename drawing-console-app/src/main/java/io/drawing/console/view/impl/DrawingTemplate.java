@@ -1,6 +1,6 @@
 package io.drawing.console.view.impl;
 
-import io.drawing.console.model.*;
+import io.drawing.console.api.*;
 
 public class DrawingTemplate {
 

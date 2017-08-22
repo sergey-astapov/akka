@@ -1,5 +1,6 @@
-package io.drawing.console.controller;
+package io.drawing.console.api;
 
+import io.drawing.console.api.Quit;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
@@ -7,6 +8,6 @@ import static org.junit.Assert.assertNotNull;
 public class QuitCommandTest {
     @Test
     public void testFrom() {
-        assertNotNull(QuitCommand.from("Q"));
+        assertNotNull(Quit.from("Q"));
     }
 }

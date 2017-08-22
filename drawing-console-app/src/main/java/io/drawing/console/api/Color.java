@@ -1,4 +1,4 @@
-package io.drawing.console.model;
+package io.drawing.console.api;
 
 import lombok.NonNull;
 import lombok.Value;

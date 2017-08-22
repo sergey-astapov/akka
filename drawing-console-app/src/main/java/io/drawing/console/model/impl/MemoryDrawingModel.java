@@ -1,5 +1,9 @@
 package io.drawing.console.model.impl;
 
+import io.drawing.console.api.Bucket;
+import io.drawing.console.api.Canvas;
+import io.drawing.console.api.Canvasable;
+import io.drawing.console.api.Figure;
 import io.drawing.console.model.*;
 import io.drawing.console.view.DrawingView;
 
@@ -56,8 +60,8 @@ public class MemoryDrawingModel implements DrawingModel {
         }
     }
 
-    private void validate(InCanvas o) {
-        if (!o.isInCanvas(canvas)) {
+    private void validate(Canvasable o) {
+        if (!o.fitCanvas(canvas)) {
             throw new IllegalModelStateException("Figure is out of canvas size");
         }
     }

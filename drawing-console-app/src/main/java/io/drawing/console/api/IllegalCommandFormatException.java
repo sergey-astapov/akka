@@ -1,4 +1,4 @@
-package io.drawing.console.controller;
+package io.drawing.console.api;
 
 public class IllegalCommandFormatException extends RuntimeException {
     public IllegalCommandFormatException(String input) {

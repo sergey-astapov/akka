@@ -1,8 +1,8 @@
 package io.drawing.console.view.impl;
 
-import io.drawing.console.model.Bucket;
-import io.drawing.console.model.Canvas;
-import io.drawing.console.model.Figure;
+import io.drawing.console.api.Bucket;
+import io.drawing.console.api.Canvas;
+import io.drawing.console.api.Figure;
 import io.drawing.console.model.ModelChangedEvent;
 import io.drawing.console.view.DrawingView;
 

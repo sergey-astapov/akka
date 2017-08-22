@@ -1,5 +1,6 @@
 package io.drawing.console.model.impl;
 
+import io.drawing.console.api.*;
 import io.drawing.console.model.*;
 import io.drawing.console.view.DrawingView;
 import org.junit.Before;

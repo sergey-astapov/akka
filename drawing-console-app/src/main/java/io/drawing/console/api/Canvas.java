@@ -1,28 +1,36 @@
-package io.drawing.console.controller;
+package io.drawing.console.api;
 
-import io.drawing.console.model.Canvas;
+import lombok.Builder;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Value
-public class CanvasCommand implements Command {
-    @NonNull
-    Canvas canvas;
+public class Canvas implements Command {
+    public static final String CANVAS = "C";
 
-    public static CanvasCommand from(String input) {
+    @NonNull
+    Integer width;
+    @NonNull
+    Integer height;
+
+    @Builder
+    public static Canvas from(Integer width, Integer height) {
+        return new Canvas(width, height);
+    }
+
+    public static Canvas from(String input) {
         String[] arr = input.split("\\s+");
         if (arr.length != 3 || !Canvas.CANVAS.equals(arr[0])) {
             log.debug("Not a canvas command, input: " + input);
             return null;
         }
         try {
-            Canvas figure = Canvas.builder()
+            return Canvas.builder()
                     .width(Integer.parseInt(arr[1]))
                     .height(Integer.parseInt(arr[2]))
                     .build();
-            return new CanvasCommand(figure);
         } catch (Exception e) {
             throw new IllegalCommandFormatException(input);
         }

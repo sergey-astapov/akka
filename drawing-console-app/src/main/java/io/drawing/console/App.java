@@ -10,6 +10,6 @@ public class App {
         DrawingView v = new ConsoleDrawingView();
         MemoryDrawingModel m = new MemoryDrawingModel(v);
         ConsoleDrawingController c = new ConsoleDrawingController(m);
-        c.start();
+        c.userLoop();
     }
 }

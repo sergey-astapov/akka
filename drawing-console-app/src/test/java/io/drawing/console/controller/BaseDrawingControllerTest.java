@@ -1,6 +1,9 @@
 package io.drawing.console.controller;
 
-import io.drawing.console.controller.impl.ConsoleDrawingController;
+import io.drawing.console.api.Bucket;
+import io.drawing.console.api.Canvas;
+import io.drawing.console.api.Line;
+import io.drawing.console.api.Rectangle;
 import io.drawing.console.model.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,14 +13,19 @@ import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 
-public class DrawingControllerTest {
-    private DrawingController sut;
+public class BaseDrawingControllerTest {
+    private BaseDrawingController sut;
     private DrawingModel model;
 
     @Before
     public void before() {
         model = Mockito.mock(DrawingModel.class);
-        sut = new ConsoleDrawingController(model);
+        sut = new BaseDrawingController(model) {
+            @Override
+            public void userLoop() {
+
+            }
+        };
     }
 
     @Test
