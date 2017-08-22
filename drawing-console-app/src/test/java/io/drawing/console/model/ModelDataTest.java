@@ -67,4 +67,12 @@ public class ModelDataTest {
         sut.fill(Bucket.from(new Point(10, 3), Color.from("o")));
         assertThat(sut.toString(), is(BUCKET));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testError() {
+        ModelData sut = new ModelData(90, 90);
+        sut.add(Rectangle.from(new Point(14, 1), new Point(18, 3)));
+        sut.fill(Bucket.from(new Point(10, 3), Color.from("-")));
+        System.out.println(sut.toString());
+    }
 }

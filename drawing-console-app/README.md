@@ -95,16 +95,10 @@ Main class: io.drawing.console.App
 
 ## Assumptions
 
-### Figures Overlapping
+### Width and Height Restrictions
 
-Figures could overlap each other
-
-### Bucket Fill Allowed Characters
-
-Next characters are not allowed for bucket fill:
+Bucket fill functionality bases on recursive algorithm which has next width-height restrictions:
 
 ```
-    '|' - used by canvas drawing
-    '-' - used by canvas drawing
-    'x' - used by figure rawing
+    Area = width * height <= 6400
 ```

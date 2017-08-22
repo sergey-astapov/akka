@@ -8,12 +8,16 @@ public class ModelData {
 
     public static final char X_CHAR = 'x';
     public static final char SPACE_CHAR = ' ';
+    public static final int MAX_AREA = 80 * 80;
 
     int width;
     int height;
     Character[][] chars;
 
     public ModelData(int width, int height) {
+        if (width * height > MAX_AREA) {
+            throw new IllegalArgumentException("width(" + width + ") * height(" + height + ") should be less than " + MAX_AREA);
+        }
         Character[][] chars = new Character[height + 2][width + 2];
         for (int i = 0; i < chars.length; i++) {
             for (int j = 0; j < chars[i].length; j++) {

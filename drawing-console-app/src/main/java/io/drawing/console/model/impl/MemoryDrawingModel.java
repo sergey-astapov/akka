@@ -57,7 +57,7 @@ public class MemoryDrawingModel implements DrawingModel {
 
     private void validate(Canvasable o) {
         if (!o.fitCanvas(modelData.getWidth(), modelData.getHeight())) {
-            throw new IllegalModelStateException("Figure is out of canvas size");
+            throw new IllegalModelStateException("Figure doesn't fit canvas size");
         }
     }
 }
