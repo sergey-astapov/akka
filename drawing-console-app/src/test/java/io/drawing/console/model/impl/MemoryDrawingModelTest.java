@@ -34,7 +34,7 @@ public class MemoryDrawingModelTest {
         verify(view, times(2)).update(any(ModelChangedEvent.class));
     }
 
-    @Test(expected = IllegalModelStateException.class)
+    @Test(expected = IllegalStateException.class)
     public void testAddLineError() {
         model.add(new HorizontalLine(new Point(1, 2), new Point(1, 3)));
     }
@@ -46,7 +46,7 @@ public class MemoryDrawingModelTest {
         verify(view, times(2)).update(any(ModelChangedEvent.class));
     }
 
-    @Test(expected = IllegalModelStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testAddRectangleError() {
         model.add(new Canvas(10, 10));
         model.add(new Rectangle(new Point(1, 2), new Point(11, 11)));
@@ -59,7 +59,7 @@ public class MemoryDrawingModelTest {
         verify(view, times(2)).update(any(ModelChangedEvent.class));
     }
 
-    @Test(expected = IllegalModelStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testFillBucketError() {
         model.add(new Canvas(10, 10));
         model.fill(new Bucket(new Point(1, 12), new Color('0')));

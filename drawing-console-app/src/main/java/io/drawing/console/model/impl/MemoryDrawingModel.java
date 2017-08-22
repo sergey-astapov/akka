@@ -1,8 +1,10 @@
 package io.drawing.console.model.impl;
 
-import io.drawing.console.api.*;
+import io.drawing.console.api.Bucket;
+import io.drawing.console.api.Canvas;
+import io.drawing.console.api.Figure;
+import io.drawing.console.api.ModelChangedEvent;
 import io.drawing.console.model.DrawingModel;
-import io.drawing.console.model.IllegalModelStateException;
 import io.drawing.console.model.ModelData;
 import io.drawing.console.view.DrawingView;
 
@@ -24,16 +26,14 @@ public class MemoryDrawingModel implements DrawingModel {
 
     @Override
     public void add(Figure figure) {
-        validateCanvas();
-        validate(figure);
+        validate();
         modelData.add(figure);
         updateView();
     }
 
     @Override
     public void fill(Bucket bucket) {
-        validateCanvas();
-        validate(bucket);
+        validate();
         modelData.fill(bucket);
         updateView();
     }
@@ -49,15 +49,9 @@ public class MemoryDrawingModel implements DrawingModel {
         }
     }
 
-    private void validateCanvas() {
+    private void validate() {
         if (modelData == null) {
-            throw new IllegalModelStateException("Canvas is not set");
-        }
-    }
-
-    private void validate(Canvasable o) {
-        if (!o.fitCanvas(modelData.getWidth(), modelData.getHeight())) {
-            throw new IllegalModelStateException("Figure doesn't fit canvas size");
+            throw new IllegalStateException("Canvas is not set");
         }
     }
 }

@@ -36,10 +36,12 @@ public class ModelData {
     }
 
     public Character[][] getChars() {
-        return chars;
+        return chars.clone();
     }
 
     public void add(Figure f) {
+        validate(f);
+
         if (f instanceof HorizontalLine) {
             Line line = (HorizontalLine) f;
             Point start = line.getStart();
@@ -72,6 +74,8 @@ public class ModelData {
     }
 
     public void fill(Bucket b) {
+        validate(b);
+
         Point point = b.getPoint();
         int x = point.getX();
         int y = point.getY();
@@ -87,6 +91,12 @@ public class ModelData {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    private void validate(Canvasable o) {
+        if (!o.fitCanvas(width, height)) {
+            throw new IllegalArgumentException("Figure doesn't fit canvas size");
+        }
     }
 
     private void floodFill(int x, int y, Character targetColor, Character replacementColor) {

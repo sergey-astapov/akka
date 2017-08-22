@@ -95,6 +95,10 @@ Main class: io.drawing.console.App
 
 ## Assumptions
 
+### Commands Format
+
+Commands should not start with spaces. 
+
 ### Width and Height Restrictions
 
 Bucket fill functionality bases on recursive algorithm which has next width-height restrictions:
