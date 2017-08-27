@@ -200,12 +200,14 @@ Metrics:
 
 ![Amdahl's law](img/concurrent-metrics-ahmad.png "Amdahl's law")
 
-* *P* is the percentage of code that can be parallelized
-* *N* is the number of cores of the computer where you're going to execute the algorithm
-
 * Gustafson-Barsis' law
 
 ![Gustafson-Barsis' law](img/concurrent-metrics-gustaf.png "Gustafson-Barsis' law")
+
+```
+P - the percentage of code that can be parallelized
+N - the number of cores of the computer where you're going to execute the algorithm
+```
 
 ## Concurrency API
 
