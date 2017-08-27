@@ -132,9 +132,14 @@ Tasks can use two different methods to communicate with each other:
 
 ### Problems
 
+#### Data race and race condition
+
 * **race condition** is a situation, in which the result of an operation depends on the interleaving of certain individual operations
 * **data race** is a situation, in which at least two threads access a shared variable at the same time outside the critical sections.
  At least one thread tries to modify the variable
+
+#### Deadlock
+
 * **deadlock** is situation when there are two or more tasks waiting for a shared resource that must be free from the other, so none of them will get the resources they need and will be blocked indefinitely
 
 **Coffman's deadlock conditions**:
@@ -151,17 +156,20 @@ Avoid deadlocks:
 * avoidance - deadlocks can be avoided if you have information about the resources that are used by a task before it begins its execution.
  When a task wants to start its execution, you can analyze the resources that are free in the system and the resources that the task needs to decide that it can start its execution or not
 
+#### Livelock
+
 * **livelock** occurs when you have two tasks in your systems that are always changing their states due to the actions of the other.
  For example, you have two tasks—Task 1 and Task 2—and both need two resources: Resource 1 and Resource 2.
  Suppose that Task 1 has a lock on Resource 1, and Task 2 has a lock on Resource 2.
  As they are unable to gain access to the resource they need, they free their resources and begin the cycle again.
  This situation can continue indefinitely, so the tasks will never end their execution
 
-* **Resource starvation** occurs when you have a task in your system that never gets a resource that it needs to continue with its execution
+#### Other
 
+* **Resource starvation** occurs when you have a task in your system that never gets a resource that it needs to continue with its execution
 * **priority inversion** occurs when a low-priority task holds a resource that is needed by a high-priority task, so the low-priority task finishes its execution before the high-priority task
 
-#### Methodology to design concurrent algorithms
+### Methodology to design concurrent algorithms
 
 * sequential version - starting point, used to compare results and check throughput
 * concurrent version
@@ -183,11 +191,17 @@ You have to decide how to do that parallelization:
 * **tuning**
 
 Metrics:
+
 * speedup
+
 ![Speedup](img/concurrent-metrics-speedup.png "Speedup")
+
 * Amdahl's law
+
 ![Amdahl's law](img/concurrent-metrics-ahmad.png "Amdahl's law")
+
 * Gustafson-Barsis' law
+
 ![Gustafson-Barsis' law](img/concurrent-metrics-gustaf.png "Gustafson-Barsis' law")
 
 ### synchronized vs ReenterLock
