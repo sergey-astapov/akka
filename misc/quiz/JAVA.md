@@ -55,6 +55,28 @@ All good software design will go for **high cohesion and low coupling**.
   
 ## Collections
 
+![JAVA Collection Hierarchy](img/java-coll-hierarchy.png "JAVA Collection Hierarchy")
+
+### Map
+
+![JAVA Map Hierarchy](img/java-map-hierarchy.png "JAVA Map Hierarchy")
+
+### List
+
+![JAVA List Hierarchy](img/java-list-hierarchy.png "JAVA List Hierarchy")
+
+### Set
+
+![JAVA Set Hierarchy](img/java-set-hierarchy.png "JAVA Set Hierarchy")
+
+### Queue
+
+![JAVA Queue Hierarchy](img/java-queue-hierarchy.png "JAVA Queue Hierarchy")
+
+### Time Complexity
+
+![JAVA Time Complexity](img/java-coll-time-complexity.png "JAVA Time Complexity")
+
 ## Threads
 
 ### synchronized vs ReenterLock
