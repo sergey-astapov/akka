@@ -243,8 +243,9 @@ Most important synchronization mechanisms:
 * **Phaser** allows you to control the execution of tasks divided into phases.
  None of the tasks advance to the next phase until all of the tasks have finished the current phase
 
-#### Synchronized vs ReenterLock
+#### Synchronized vs ReentrantLock
 
+* synchronized and ReentrantLock are both reentrant
 * synchronized is structured
 * ReentrantLock is unstructured, i.e. you don't need to use a block structure for locking and can even hold a lock across methods.
 
