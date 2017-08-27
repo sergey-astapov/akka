@@ -77,7 +77,7 @@ All good software design will go for **high cohesion and low coupling**.
 
 ![JAVA Time Complexity](img/java-coll-time-complexity.png "JAVA Time Complexity")
 
-## Threads
+## Concurrency
 
 ### Concepts
 
@@ -142,7 +142,7 @@ Tasks can use two different methods to communicate with each other:
 
 * **deadlock** is situation when there are two or more tasks waiting for a shared resource that must be free from the other, so none of them will get the resources they need and will be blocked indefinitely
 
-**Coffman's deadlock conditions**:
+Coffman's deadlock conditions:
 * mutual exclusion - the resources involved in the deadlock must be nonshareable. Only one task can use the resource at a time
 * hold and wait condition - a task has the mutual exclusion for a resource and it's requesting the mutual exclusion for another resource. While it's waiting, it doesn't release any resources
 * no pre-emption - the resources can only be released by the tasks that hold them
@@ -200,11 +200,50 @@ Metrics:
 
 ![Amdahl's law](img/concurrent-metrics-ahmad.png "Amdahl's law")
 
+* *P* is the percentage of code that can be parallelized
+* *N* is the number of cores of the computer where you're going to execute the algorithm
+
 * Gustafson-Barsis' law
 
 ![Gustafson-Barsis' law](img/concurrent-metrics-gustaf.png "Gustafson-Barsis' law")
 
-### synchronized vs ReenterLock
+## Concurrency API
+
+Basic elements:
+* Thread
+* Lock
+* Semaphore
+
+High-level mechanisms:
+* executor framework
+* parallel Stream API
+
+### Basic concurrency classes
+
+* **Thread** represents all the threads that execute a concurrent Java application
+* **Runnable** is another way to create concurrent applications in Java
+* **ThreadLocal** is a class to store variables locally to a thread
+* **ThreadFactory** is the base of the Factory design pattern that you can use to create customized threads
+
+### Synchronization mechanisms
+
+Synchronization mechanisms that allow you to:
+* define a critical section to access a shared resource
+* synchronize different tasks in a common point
+
+Most important synchronization mechanisms:
+* **synchronized** allows you to define a critical section in a block of code or in an entire method
+* **Lock** provides a more flexible synchronization operation than the synchronized keyword
+* **ReentrantLock** implements a Lock that can be associated with a condition
+* **ReentrantReadWriteLock** separates read and write operations
+* **StampedLock** includes three modes for controlling read/write access
+* **Semaphore** implements the classical semaphore to implement synchronization
+* **CountDownLatch** allows a task to wait for the finalization of multiple operations
+* **CyclicBarrier** allows the synchronization of multiple threads in a common point
+* **Phaser** allows you to control the execution of tasks divided into phases.
+ None of the tasks advance to the next phase until all of the tasks have finished the current phase
+
+#### Synchronized vs ReenterLock
 
 * synchronized is structured
 * ReentrantLock is unstructured, i.e. you don't need to use a block structure for locking and can even hold a lock across methods.
@@ -236,7 +275,216 @@ Use it when you actually need something it provides that synchronized doesn't:
 * multiple condition variables
 * lock polling.
 
-## Patterns
+### Executors
+
+Executor separates thread creation and management from the implementation of concurrent tasks:
+
+* **Executor, ExecutorService** include methods common to all executors
+* **ThreadPoolExecutor** allows you to get an executor with a pool of threads and optionally define a maximum number of parallel tasks
+* **ScheduledThreadPoolExecutor** allows you to execute tasks after a delay or periodically
+* **Executors** facilitates the creation of executors
+* **Callable** is  a separate task that can return a value
+* **Future** includes the methods to obtain the value returned by a Callable interface and to control its status
+
+### Fork/Join
+
+Main classes and interfaces involved:
+* **ForkJoinPool** implements the executor that is going to run the tasks
+* **ForkJoinTask** is a task that can be executed in the ForkJoinPool class
+* **ForkJoinWorkerThread** is a thread that is going to execute tasks in the ForkJoinPool class
+
+* recursive algorithms
+* work-stealing
+
+#### Example   
+```
+public interface Node {
+    Collection<Node> getChildren();    
+    long getValue();
+}
+```
+```
+public class ValueSumCounter extends RecursiveTask<Long> {
+    private final Node node;
+    
+    public ValueSumCounter(Node node) {
+        this.node = node;
+    }
+
+    @Override
+    protected Long compute() {
+        long sum = node.getValue();
+        List<ValueSumCounter> subTasks = new LinkedList<>();
+        
+        for(Node child : node.getChildren()) {
+            ValueSumCounter task = new ValueSumCounter(child);
+            task.fork();
+            subTasks.add(task);
+        }
+        
+        for(ValueSumCounter task : subTasks) {
+            sum += task.join(); 
+        }
+        
+        return sum;
+    }
+}
+```
+```
+public static void main(String[] args) {
+    Node root = getRootNode();
+    new ForkJoinPool().invoke(new ValueSumCounter(root));
+}
+```
+
+### Parallel streams
+
+Parallel stream realizes its operations in a parallel way.
+
+The most important elements involved in the use of parallel streams are:
+
+* **Stream** defines all the operations that you can perform on a stream
+* **Optional** is a container object that may or may not contain a non-null value
+* **Collectors** implements reduction operations that can be used as part of a stream sequence of operations
+* **Lambda expressions** allows you to implement a more compact version of the operations
+
+### Concurrent data structures
+
+We can classify them in two groups:
+* **Blocking data structures** include methods that block the calling task when, for example, the data structure is empty and you want to get a value
+* **Non-blocking data structures** - if the operation can be made immediately, it won't block the calling tasks.
+ Otherwise, it returns the null value or throws an exception.
+
+Data structures:
+
+* **ConcurrentLinkedDeque** is a non-blocking list
+* **ConcurrentLinkedQueue** is a non-blocking queue
+* **LinkedBlockingDeque** is a blocking list
+* **LinkedBlockingQueue** is a blocking queue
+* **PriorityBlockingQueue** is a blocking queue that orders its elements based on its priority
+* **ConcurrentSkipListMap** is a non-blocking navigable map
+* **ConcurrentHashMap** is a non-blocking hash map
+* **AtomicBoolean, AtomicInteger, AtomicLong, and AtomicReference** are atomic implementations of the basic Java data types
+
+## Concurrency design patterns
+
+### Signaling
+Signaling explains how to implement the situation where a task has to notify an event to another task.
+The easiest way to implement this pattern is with a semaphore or a mutex (ReentrantLock or Semaphore) or even the wait() and notify() methods included in the Object class.
+```
+public void task1() {
+  section1();
+  commonObject.notify();
+}
+public void task2() {
+  commonObject.wait();
+  section2();
+}
+```
+
+### Rendezvous
+
+Rendezvous is a generalization of the Signaling pattern.
+The solution is similar to that of Signaling, but in this case you must use two objects instead of one.
+```
+public void task1() {
+  section1_1();
+  commonObject1.notify();
+  commonObject2.wait();
+  section1_2();
+}
+public void task2() {
+  section2_1();
+  commonObject2.notify();
+  commonObject1.wait();
+  section2_2();
+}
+```
+
+### Mutex
+
+A mutex is a mechanism that you can use to implement a critical section ensuring mutual exclusion.
+In Java, you can implement a critical section using:
+* the synchronized keyword (that allows you to protect a portion of code or a full method)
+* ReentrantLock
+* Semaphore
+
+```
+public void task() {
+  preCriticalSection();
+  lockObject.lock();
+  criticalSection();
+  lockObject.unlock();
+  postCriticalSection();
+}
+```
+
+### Multiplex
+
+The Multiplex design pattern is a generalization of the mutex.
+It determines a number of tasks can execute the critical section at once
+It is useful, for example, when you have multiple copies of a resource.
+The easiest way to implement this design pattern in Java is using the Semaphore class initialized to the number of tasks that can execute the critical section at once.
+```
+public void task() {
+  preCriticalSection();
+  semaphoreObject.acquire();
+  criticalSection();
+  semaphoreObject.release();
+  postCriticalSection();
+}
+```
+
+### Barrier
+
+Barrier implements the situation where you need to synchronize some tasks at a common point.
+None of the tasks can continue with their execution until all the tasks have arrived at the synchronization point.
+
+**CyclicBarrier** is an implementation of this design pattern.
+```
+public void task() {
+  preSyncPoint();
+  barrierObject.await();
+  postSyncPoint();
+}
+```
+
+### Double-checked locking
+
+```
+public class Singleton {
+  private static class LazySingleton {
+    private static final Singleton INSTANCE = new Singleton();
+  }  
+  public static Singleton getSingleton() {
+    return LazySingleton.INSTANCE;
+  }
+}
+```
+
+### Read-write lock
+
+You will have variables that you modify a few times but read many times.
+In this circumstance, a lock provides poor performance because all the read operations can be made concurrently without any problem.
+To solve this problem, there exists the read-write lock design pattern.
+It defines a special kind of lock with two internal locks:
+* one for read operations
+* other for write operations
+
+Behavior of this lock is as follows:
+* If one task is doing a read operation and another task wants to do another read operation, it can do it
+* If one task is doing a read operation and another task wants to do a write operation, it's blocked until all the readers finish
+* If one task is doing a write operation and another task wants to do an operation (read or write), it's blocked until the writer finishes
+
+### Thread pool
+
+This design pattern tries to remove the overhead introduced by creating a thread for the task you want to execute.
+ExecutorService interface implementations internally use a pool of threads.
+
+### Thread local storage
+
+If you use thread local storage, each thread accesses a different instance of the variable.
+ThreadLocal implements this design pattern.
 
 ## Memory model
 
