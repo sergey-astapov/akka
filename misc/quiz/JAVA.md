@@ -276,6 +276,12 @@ Use it when you actually need something it provides that synchronized doesn't:
 * multiple condition variables
 * lock polling.
 
+#### Semaphore Vs CountDownLatch and CyclicBarrier
+
+* Semaphore maintains a set of permits
+* CountDownLatch count cannot be reset
+* CyclicBarrier count can be reset
+
 ### Executors
 
 Executor separates thread creation and management from the implementation of concurrent tasks:
