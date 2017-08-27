@@ -79,6 +79,117 @@ All good software design will go for **high cohesion and low coupling**.
 
 ## Threads
 
+### Concepts
+
+#### Concurrency vs parallelism
+
+* concurrency - a condition that exists when at least two threads are making progress. A more generalized form of parallelism that can include time-slicing as a form of virtual parallelism
+* parallelism - a condition that arises when at least two threads are executing simultaneously
+
+#### synchronization
+
+* control synchronization - when, for example, one task depends on the end of another task, the second task can't start before the first has finished
+* data access synchronization - when two or more tasks have access to a shared variable and only one of the tasks can access the variable at any given time
+
+#### synchronization, critical section and mutual exclusion
+
+A concept closely related to synchronization is critical section
+
+* critical section is a piece of code that can be only executed by a task at any given time because of its access to a shared resource
+* mutual exclusion is the mechanism used to guarantee this requirement and can be implemented by different ways
+
+#### semaphore, mutex and monitor
+
+Most popular mechanisms to get synchronization from a theoretical point of view are:
+* semaphore is a mechanism that can be used to control the access to one or more units of a resource.
+ It has a variable that stores the number of resources that can be used and two atomic operations to manage the value of the variable
+* mutex (mutual exclusion) is a special kind of semaphore that can take only two values (resource is free and resource is busy), and only the process that sets the mutex to busy can release it
+* monitor is a mechanism to get mutual exclusion over a shared resource.
+ It has a mutex, a condition variable, and two operations to wait for the condition and to signal the condition.
+ Once you signal the condition, only one of the tasks that are waiting for it continues with its execution.
+
+#### thread safety
+
+A piece of code (or a method or an object) is thread-safe if all the users of shared data are protected by synchronization mechanisms, a nonblocking compare-and-swap (CAS) primitive or data is immutable and you can use that code in a concurrent application without any problem
+
+#### immutable object
+
+* immutable object is an object which you can't modify its visible state after its initialization
+
+#### atomic operations and variables
+
+* atomic operation - you can implement an atomic operation with a critical section to the whole operation using a synchronization mechanism
+* atomic variable is a kind of variable with atomic operations to set and get its value.
+ You can implement an atomic variable using a synchronization mechanism or using CAS
+
+#### shared memory vs message passing
+
+Tasks can use two different methods to communicate with each other:
+* shared memory - normally it is used when the tasks are running in the same computer.
+ The tasks use the same memory area where they write and read values, the access to this shared memory has to be in a critical section protected by a synchronization mechanism
+* message passing - normally is used when the tasks are running in different computers. 
+ This communication can be synchronous if the sender is blocked waiting for a response or asynchronous if the sender continues with their execution after sending the message
+
+### Problems
+
+* **race condition** is a situation, in which the result of an operation depends on the interleaving of certain individual operations
+* **data race** is a situation, in which at least two threads access a shared variable at the same time outside the critical sections.
+ At least one thread tries to modify the variable
+* **deadlock** is situation when there are two or more tasks waiting for a shared resource that must be free from the other, so none of them will get the resources they need and will be blocked indefinitely
+
+**Coffman's deadlock conditions**:
+* mutual exclusion - the resources involved in the deadlock must be nonshareable. Only one task can use the resource at a time
+* hold and wait condition - a task has the mutual exclusion for a resource and it's requesting the mutual exclusion for another resource. While it's waiting, it doesn't release any resources
+* no pre-emption - the resources can only be released by the tasks that hold them
+* circular wait - there is a circular waiting where Task 1 is waiting for a resource that is being held by Task 2, which is waiting for a resource being held by Task 3, and so on until we have Task n that is waiting for a resource being held by Task 1
+
+Avoid deadlocks:
+* ignore them - this is the most commonly used mechanism. You suppose that a deadlock will never occur on your system, and if it occurs, you can see the consequences of stopping your application and having to re-execute it
+* detection - the system has a special task that analyzes the state of the system to detect if a deadlock has occurred.
+ If it detects a deadlock, it can take action to remedy the problem. For example, finishing one task or forcing the liberation of a resource.
+* prevention - if you want to prevent deadlocks in your system, you have to prevent one or more of Coffman's conditions
+* avoidance - deadlocks can be avoided if you have information about the resources that are used by a task before it begins its execution.
+ When a task wants to start its execution, you can analyze the resources that are free in the system and the resources that the task needs to decide that it can start its execution or not
+
+* **livelock** occurs when you have two tasks in your systems that are always changing their states due to the actions of the other.
+ For example, you have two tasks—Task 1 and Task 2—and both need two resources: Resource 1 and Resource 2.
+ Suppose that Task 1 has a lock on Resource 1, and Task 2 has a lock on Resource 2.
+ As they are unable to gain access to the resource they need, they free their resources and begin the cycle again.
+ This situation can continue indefinitely, so the tasks will never end their execution
+
+* **Resource starvation** occurs when you have a task in your system that never gets a resource that it needs to continue with its execution
+
+* **priority inversion** occurs when a low-priority task holds a resource that is needed by a high-priority task, so the low-priority task finishes its execution before the high-priority task
+
+#### Methodology to design concurrent algorithms
+
+* sequential version - starting point, used to compare results and check throughput
+* concurrent version
+
+##### Steps
+
+* **analysis**
+* **design**
+
+You have to decide how to do that parallelization:
+* *task decomposition* when you split the code in two or more independent tasks that can be executed at once.
+ Maybe some of these tasks have to be executed in a given order or have to wait at the same point.
+ You must use synchronization mechanisms to get this behavior
+* *data decomposition* when you have multiple instances of the same task that work with a subset of the dataset.
+ This dataset will be a shared resource, so if the tasks need to modify the data you have to protect access to it by implementing a critical section
+
+* **implementation**
+* **testing**
+* **tuning**
+
+Metrics:
+* speedup
+![Speedup](img/concurrent-metrics-speedup.png "Speedup")
+* Amdahl's law
+![Amdahl's law](img/concurrent-metrics-ahmad.png "Amdahl's law")
+* Gustafson-Barsis' law
+![Gustafson-Barsis' law](img/concurrent-metrics-gustaf.png "Gustafson-Barsis' law")
+
 ### synchronized vs ReenterLock
 
 * synchronized is structured
